@@ -1,5 +1,6 @@
-// this was previously /api but when i tested locally just "/" was working
-const API_BASE_URL = 'https://demo-northstar-movie-theatre.azurewebsites.net'; 
+// deployed backend address: https://demo-northstar-movie-theatre.azurewebsites.net
+// local address since database is not yet deployed
+const API_BASE_URL = '/api'; 
 
 // Theaters
 export const theaterApi = {
