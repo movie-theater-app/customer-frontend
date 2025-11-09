@@ -1,4 +1,5 @@
-const API_BASE_URL = '/api';
+// this was previously /api but when i tested locally just "/" was working
+const API_BASE_URL = 'https://demo-northstar-movie-theatre.azurewebsites.net'; 
 
 // Theaters
 export const theaterApi = {
