@@ -1,11 +1,18 @@
 import './App.css'
-import TheaterDropdown from './components/TheaterDropdown'
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Main from './views/Main'
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Main />
+  },
+]);
 
 function App() {
   return (
     <>
-      <h2>Choose theaters</h2>
-      <TheaterDropdown />
+      <RouterProvider router={router} />
     </>
   )
 }
