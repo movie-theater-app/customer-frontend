@@ -1,5 +1,29 @@
+* {
+  box-sizing: border-box;
+}
+
 #root {
   margin: 0 auto;
+  background-color: #09132c;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+h1 {
+  color: #caf9ff;
+  text-align: center;
+  font-family: Georgia;
+  font-weight: 200;
+  font-size: 3em;
+  margin-bottom: 10px;
+  margin-top: 16px;
+}
+
+h2 {
+  color: #caf9ff;
+  font-size: 1.8em;
+  margin-bottom: 10px;
+  margin: 12px;
 }
 
 .selection {
@@ -16,12 +40,12 @@
   background-color: white;
   color: black;
   border: 1px solid gray;
-  border-radius: 4px;
+  border-radius: 10px;
   cursor: pointer;
 }
 
 .selection.open .dropdown-header {
-  border-radius: 4px 4px 0 0;
+  border-radius: 10px 10px 0 0;
 }
 
 .dropdown-arrow {
@@ -36,7 +60,8 @@
   margin-top: -1px;
   background-color: white;
   border: 1px solid gray;
-  border-radius: 0 0 4px 4px;
+  border-radius: 0 0 10px 10px;
+  z-index: 1000;
 }
 
 .dropdown-item {
@@ -49,6 +74,81 @@
 .dropdown-item label {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 4px;
   cursor: pointer;
+}
+
+.logo {
+  display: block;
+  width: 100%;
+  height: 122px;
+  object-fit: none;
+}
+
+.movie-box {
+  background-color: #050c1d;
+  border-radius: 10px;
+  min-width: 100px;
+  height: 135px;
+  margin: 10px;
+}
+
+.movie-box-big {
+  background-color: #050c1d;
+  border-radius: 10px;
+  min-width: 150px;
+  height: 202px;
+  margin: 10px;
+}
+
+.carousel {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 10px;
+  width: 100%;
+}
+
+.separator {
+  height: 2px;
+  background-color: gray;
+  margin: 10px 0;
+}
+
+.bottom-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(to bottom, #091430, #050c1d);
+}
+
+.date-picker {
+  width: 96px;
+  height: 96px;
+}
+
+.date-display {
+  color: white;
+  background-color: #050c1d;
+  border-radius: 10px;
+  width: 200px;
+  height: auto;
+  font-size: 1.5em;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.movies-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 10px;
+}
+
+.contact-info-footer {
+  color: #caf9ff;
+  text-align: right;
+  margin: 10px;
 }
