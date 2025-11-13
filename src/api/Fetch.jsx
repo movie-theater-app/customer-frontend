@@ -1,12 +1,12 @@
 // deployed backend address: https://demo-northstar-movie-theatre.azurewebsites.net
 // local address since database is not yet deployed
-const API_BASE_URL = '/api'; 
+const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL; 
 
 // Theaters
 export const theaterApi = {
   getAllTheaters: async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/theaters/`);
+      const response = await fetch(`${VITE_API_BASE_URL}/theaters/`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -19,7 +19,7 @@ export const theaterApi = {
 
   getTheaterById: async (id) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/theaters/${id}`);
+      const response = await fetch(`${VITE_API_BASE_URL}/theaters/${id}`);
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       return await response.json();
     } catch (error) {
@@ -32,7 +32,7 @@ export const theaterApi = {
 export const auditoriumApi = {
   getAllAuditoriums: async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/auditoriums/`);
+      const response = await fetch(`${VITE_API_BASE_URL}/auditoriums/`);
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       return await response.json();
     } catch (error) {
@@ -43,7 +43,7 @@ export const auditoriumApi = {
 
   getAuditoriumsByTheater: async (theaterId) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/auditoriums/theater/${theaterId}`);
+      const response = await fetch(`${VITE_API_BASE_URL}/auditoriums/theater/${theaterId}`);
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       return await response.json();
     } catch (error) {
