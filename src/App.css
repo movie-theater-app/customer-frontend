@@ -1,16 +1,23 @@
+:root {
+  --highlights: #caf9ff;
+  --bg-dark: #09132c;
+  --bg-darker: #050c1d;
+  --bg-medium: #091430;
+}
+
 * {
   box-sizing: border-box;
 }
 
 #root {
   margin: 0 auto;
-  background-color: #09132c;
+  background-color: var(--bg-dark);
   overflow-x: hidden;
   width: 100%;
 }
 
 h1 {
-  color: #caf9ff;
+  color: var(--highlights);
   text-align: center;
   font-family: Georgia;
   font-weight: 200;
@@ -20,7 +27,7 @@ h1 {
 }
 
 h2 {
-  color: #caf9ff;
+  color: var(--highlights);
   font-size: 1.8em;
   margin-bottom: 10px;
   margin: 12px;
@@ -67,7 +74,7 @@ h2 {
 .dropdown-item {
   padding: 8px;
   border-bottom: 1px solid gray;
-  color:black;
+  color: black;
 }
 
 /* Checkmarks */
@@ -86,7 +93,7 @@ h2 {
 }
 
 .movie-box {
-  background-color: #050c1d;
+  background-color: var(--bg-darker);
   border-radius: 10px;
   min-width: 100px;
   height: 135px;
@@ -94,7 +101,7 @@ h2 {
 }
 
 .movie-box-big {
-  background-color: #050c1d;
+  background-color: var(--bg-darker);
   border-radius: 10px;
   min-width: 150px;
   height: 202px;
@@ -119,7 +126,7 @@ h2 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: linear-gradient(to bottom, #091430, #050c1d);
+  background: linear-gradient(to bottom, var(--bg-medium), var(--bg-darker));
 }
 
 .date-picker {
@@ -129,7 +136,7 @@ h2 {
 
 .date-display {
   color: white;
-  background-color: #050c1d;
+  background-color: var(--bg-darker);
   border-radius: 10px;
   width: 200px;
   height: auto;
@@ -149,7 +156,7 @@ h2 {
 
 .no-results {
   box-sizing: border-box;
-  background-color: #09132c;
+  background-color: var(--bg-dark);
   border: 1px solid rgba(255,255,255,0.1);
   border-radius: 10px;
   font-size: 1.2em;
@@ -186,7 +193,7 @@ h2 {
 }
 
 .search-input {
-  background-color: #050c1d;
+  background-color: var(--bg-darker);
   flex: 1;
   padding: 10px 14px;
   border: 1px solid gray;
@@ -197,7 +204,7 @@ h2 {
 
 .search-button {
   padding: 0 18px;
-  background: #caf9ff;
+  background: var(--highlights);
   color: black;
   border: 1px solid gray;
   border-left: none;
@@ -207,7 +214,7 @@ h2 {
 }
 
 .contact-info-footer {
-  color: #caf9ff;
+  color: var(--highlights);
   text-align: right;
   margin: 10px;
 }
