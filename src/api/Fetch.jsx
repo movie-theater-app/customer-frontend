@@ -16,4 +16,39 @@ export const theaterApi = {
       throw error;
     }
   },
+
+  getTheaterById: async (id) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/theaters/${id}`);
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      return await response.json();
+    } catch (error) {
+      console.error(`Error fetching theater with id ${id}:`, error);
+      throw error;
+    }
+  },
+};
+
+export const auditoriumApi = {
+  getAllAuditoriums: async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/auditoriums/`);
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching auditoriums:', error);
+      throw error;
+    }
+  },
+
+  getAuditoriumsByTheater: async (theaterId) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/auditoriums/theater/${theaterId}`);
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      return await response.json();
+    } catch (error) {
+      console.error(`Error fetching auditoriums for theater ${theaterId}:`, error);
+      throw error;
+    }
+  },
 };
