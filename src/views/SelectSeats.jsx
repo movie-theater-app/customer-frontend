@@ -1,12 +1,16 @@
 import SeatMap from '../components/SeatMap';
 import { useParams } from 'react-router-dom';
+import logo from '../assets/logo.png'
+import '../App.css'
+
 
 export default function SeatMapPage() {
-  const { auditoriumId } = useParams(); // hakee auditorion ID:n URL:sta
+  const { auditoriumId } = useParams(); // Get auditorium ID from URL
 
   return (
     <div style={{ padding: '20px' }}>
-      <h1>Choose your seats</h1>
+       <img src={logo} className="logo"/>
+        <h1>Choose your seats</h1>
       <SeatMap auditoriumId={auditoriumId} />
     </div>
   );

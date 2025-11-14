@@ -1,5 +1,102 @@
 import { useState, useEffect } from "react";
-//import { seatApi } from '../api/seatApi';
+import { seatApi } from '../api/seatApi';
+import '../CSS/SeatMap.css';
+
+export default function SeatMap({ auditoriumId }) {
+  const [seats, setSeats] = useState([]);
+  const [selectedSeats, setSelectedSeats] = useState([]);
+
+  // Fetch seats from backend
+  const fetchSeats = async () => {
+    try {
+      const data = await seatApi.getSeats(auditoriumId);
+      setSeats(data); // data already has row, number, status
+    } catch (error) {
+      console.error("Error fetching seats:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (auditoriumId) fetchSeats();
+  }, [auditoriumId]);
+
+  const toggleSelect = (seat) => {
+    if (seat.status === 'reserved') return;
+    const seatId = `${seat.row}${seat.number}`;
+    if (selectedSeats.includes(seatId)) {
+      setSelectedSeats(selectedSeats.filter(s => s !== seatId));
+    } else {
+      setSelectedSeats([...selectedSeats, seatId]);
+    }
+  };
+
+  const reserveSeats = async () => {
+    if (selectedSeats.length === 0) {
+      alert("Please select at least one seat.");
+      return;
+    }
+    try {
+      const result = await seatApi.reserveSeats(auditoriumId, selectedSeats);
+      if (result.success) {
+        alert("Seats reserved!");
+        setSelectedSeats([]);
+        fetchSeats();
+      } else {
+        alert("Some seats already reserved: " + JSON.stringify(result.alreadyReserved));
+        fetchSeats();
+      }
+    } catch (error) {
+      alert("Error reserving seats. See console.");
+      console.error(error);
+    }
+  };
+
+  // Auto columns based on seat count (simplified, dynamic layout can be improved)
+  const columns = 15;
+
+  return (
+    <div>
+      <h2>Seat map</h2>
+      <div className="seat-map-grid">
+        {seats.map(seat => {
+          const seatId = `${seat.row}${seat.number}`;
+          let seatClass = 'seat available';
+          if (seat.status === 'reserved') seatClass = 'seat reserved';
+          else if (selectedSeats.includes(seatId)) seatClass = 'seat selected';
+
+          return (
+            <div
+              key={seatId}
+              className={seatClass}
+              onClick={() => toggleSelect(seat)}
+            >
+              {seatId}
+            </div>
+          );
+        })}
+      </div>
+      <button
+        onClick={reserveSeats}
+        className="reserve-button"
+      >
+        Reserve selected seats
+      </button>
+    </div>
+  );
+}
+
+
+
+
+
+
+
+
+
+
+
+/*import { useState, useEffect } from "react";
+import { seatApi } from '../api/seatApi';
 
 export default function SeatMap({ auditoriumId }) {
   const [seats, setSeats] = useState([]);
@@ -29,7 +126,7 @@ export default function SeatMap({ auditoriumId }) {
     } catch (error) {
       console.error(error);
     }
-  };*/
+  };
 
   useEffect(() => {
     setSeats(generateMockSeats());
@@ -45,6 +142,25 @@ export default function SeatMap({ auditoriumId }) {
       setSelectedSeats([...selectedSeats, seatId]);
     }
   };
+
+  useEffect(() => {
+  const fetchSeats = async () => {
+    try {
+      const data = await seatApi.getSeats(auditoriumId);
+      // Muokataan backendin data frontendin käyttämään muotoon
+      const formattedSeats = data.map(s => ({
+        row: s.seat_row,
+        number: s.seat_number,
+        status: s.status
+      }));
+      setSeats(formattedSeats);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  if (auditoriumId) fetchSeats();
+}, [auditoriumId]);
 
   const reserveSeats = async () => {
     if(selectedSeats.length === 0){
@@ -111,4 +227,4 @@ export default function SeatMap({ auditoriumId }) {
       </button>
     </div>
   );
-}
+}*/

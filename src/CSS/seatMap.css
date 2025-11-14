@@ -1,0 +1,52 @@
+
+
+/* Container */
+.seat-map-container {
+  padding: 20px;
+}
+
+.seat-map-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 40px); /* Default 10 columns */
+  gap: 5px;
+}
+
+/* Individual seat */
+.seat {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.seat:hover {
+  transform: scale(1.05);
+}
+
+/* Seat states */
+.seat.available {
+  background-color: green;
+}
+
+.seat.selected {
+  background-color: orange;
+}
+
+.seat.reserved {
+  background-color: red;
+  cursor: not-allowed;
+}
+
+/* Reserve button */
+.reserve-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
