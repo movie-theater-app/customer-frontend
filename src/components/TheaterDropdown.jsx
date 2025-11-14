@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { theaterApi } from '../api/Fetch'
 
-export default function TheaterDropdown() {
+export default function TheaterDropdown({ onSelectionChange }) {
   const [isOpen, setIsOpen] = useState(false);
   const [theaters, setTheaters] = useState([]);
   const [selectedTheaters, setSelectedTheaters] = useState({});
@@ -18,6 +18,11 @@ export default function TheaterDropdown() {
           initialSelection[theater.id] = true;
         });
         setSelectedTheaters(initialSelection);
+        
+        if (onSelectionChange) {
+          const selectedIds = data.map(t => t.id);
+          onSelectionChange(selectedIds);
+        }
       } catch (error) {
         console.error('Failed to load theaters:', error);
       }
@@ -31,10 +36,21 @@ export default function TheaterDropdown() {
   };
 
   const handleTheaterToggle = (theaterId) => {
-    setSelectedTheaters(prevSelected => ({
-      ...prevSelected,
-      [theaterId]: !prevSelected[theaterId]
-    }));
+    setSelectedTheaters(prevSelected => {
+      const newSelected = {
+        ...prevSelected,
+        [theaterId]: !prevSelected[theaterId]
+      };
+      
+      if (onSelectionChange) {
+        const selectedIds = Object.keys(newSelected)
+          .filter(id => newSelected[id])
+          .map(id => parseInt(id));
+        onSelectionChange(selectedIds);
+      }
+      
+      return newSelected;
+    });
   };
 
   const getSelectedTheaterNames = () => {

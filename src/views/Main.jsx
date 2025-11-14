@@ -8,6 +8,11 @@ import '../App.css'
 function Main() {
   const [searchedMovies, setSearchedMovies] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
+  const [selectedTheaters, setSelectedTheaters] = useState([]);
+
+  const handleTheaterChange = (theaterIds) => {
+    setSelectedTheaters(theaterIds);
+  };
 
   return (
     <>
@@ -25,9 +30,13 @@ function Main() {
       <div className="separator"></div>
       <div className="bottom-section">
         <h2>Choose theaters</h2>
-        <TheaterDropdown />
+        <TheaterDropdown onSelectionChange={handleTheaterChange} />
   <h2>Select movie</h2>
-  <MovieSearch onResults={setSearchedMovies} onSearched={setHasSearched} />
+  <MovieSearch 
+    onResults={setSearchedMovies} 
+    onSearched={setHasSearched}
+    selectedTheaters={selectedTheaters}
+  />
         <h2>Select date</h2>
         <img src={date_picker} className="date-picker" />
         <div className="date-display">6th of November</div>

@@ -1,13 +1,18 @@
 import { useState } from 'react'
 import { movieApi } from '../api/Fetch'
 
-export default function MovieSearch({ onResults, onSearched }) {
+export default function MovieSearch({ onResults, onSearched, selectedTheaters }) {
   const [query, setQuery] = useState('');
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    
+    if (selectedTheaters.length === 0) {
+      return;
+    }
+    
     try {
-      const data = await movieApi.search(query.trim());
+      const data = await movieApi.searchWithFilters(query.trim(), selectedTheaters);
       const list = Array.isArray(data) ? data : [];
       onResults && onResults(list);
       onSearched && onSearched(true);

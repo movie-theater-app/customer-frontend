@@ -16,12 +16,27 @@ export const theaterApi = {
   },
 };
 
+// Schedules
+export const scheduleApi = {
+  getAllSchedules: async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/schedules/`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching schedules:', error);
+      throw error;
+    }
+  },
+};
+
 // Movies
 export const movieApi = {
   search: async (query) => {
     try {
       const q = (query || '').trim();
-      // If backend doesn't filter, we'll fetch and filter client-side as a fallback
       const url = q
         ? `${API_BASE_URL}/movies?query=${encodeURIComponent(q)}`
         : `${API_BASE_URL}/movies`;
@@ -32,7 +47,6 @@ export const movieApi = {
       const data = await response.json();
       if (!Array.isArray(data)) return [];
 
-      // Client-side fallback filtering to handle backends that ignore the query param
       if (!q) return data;
       const lowercaseSearch = q.toLowerCase();
       return data.filter((m) => {
@@ -41,6 +55,34 @@ export const movieApi = {
       });
     } catch (error) {
       console.error('Error fetching movies:', error);
+      throw error;
+    }
+  },
+
+  searchWithFilters: async (query, theaterIds = []) => {
+    try {
+
+      const schedules = await scheduleApi.getAllSchedules();
+      
+      // Filter schedules by theaters if any are selected
+      let filteredSchedules = schedules;
+      if (theaterIds && theaterIds.length > 0) {
+        filteredSchedules = filteredSchedules.filter(schedule => 
+          theaterIds.includes(schedule.theater_id)
+        );
+      }
+      
+      const movieIds = [...new Set(filteredSchedules.map(s => s.movie_id))];
+      const allMovies = await movieApi.search(query);
+      
+      // Filter movies to only those with matching schedules
+      const filteredMovies = allMovies.filter(movie => 
+        movieIds.includes(movie.id)
+      );
+      
+      return filteredMovies;
+    } catch (error) {
+      console.error('Error searching movies with filters:', error);
       throw error;
     }
   },
