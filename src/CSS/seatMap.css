@@ -2,32 +2,38 @@
 
 /* Container */
 .seat-map-container {
+  display: block;
+  background-color: rgba(255, 255, 255, 0.137);
+  border-radius: 8px;
   padding: 20px;
+  overflow-x: auto;
+  margin: 1rem 0.6rem;
+  max-width: 100vw;
+  text-align: center;
 }
 
 .seat-map-grid {
   display: grid;
-  grid-template-columns: repeat(10, 40px); /* Default 10 columns */
-  gap: 5px;
+  gap: 0.8rem;
+  grid-auto-flow: row;
+  width: max-content;
+  padding: 0.2rem;
 }
 
 /* Individual seat */
 .seat {
-  width: 40px;
-  height: 40px;
+  width: min(40px, 7vw);
+  height: min(40px, 7vw);
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 4px;
-  font-weight: bold;
+  font-size: 0.7rem;
+  font-weight: 600;
   color: white;
   cursor: pointer;
-  transition: transform 0.1s;
 }
 
-.seat:hover {
-  transform: scale(1.05);
-}
 
 /* Seat states */
 .seat.available {
@@ -39,14 +45,94 @@
 }
 
 .seat.reserved {
-  background-color: red;
+  background-color: rgb(201, 2, 2);
   cursor: not-allowed;
 }
+.seat.wheelchair {
+  color: black;
+  background-color: rgba(255, 255, 255, 0.8); 
+  border: 2px solid green; 
+}
 
-/* Reserve button */
+.seat.selected.wheelchair {
+  border: 2px solid orange; 
+}
+.seat.on-hold {
+  background-color: rgb(201, 2, 2);
+  border: 2px solid orange;
+  color: white;
+}
+.seat.locked {
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+.reserve-btn-container {
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0.3rem 1rem;
+}
+
 .reserve-button {
+  background-color: #21a3af;
+  color: white;
+  font-size: 1rem;;
   margin-top: 20px;
-  padding: 10px 20px;
+  padding: 0.2rem 1rem;
   font-weight: bold;
   cursor: pointer;
 }
+
+.reserve-button:hover {
+  background-color: rgba(218, 171, 43, 0.863);
+  transition: background-color 0.2s ease-in-out;
+}
+
+@media (min-width: 500px) {
+  .seat-map-container {
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+    margin: 2rem auto;
+    max-width: 95vw;
+  }
+
+  .seat-map-grid {
+    gap: 1rem;
+    padding: 1rem 3rem 1rem 3rem;
+  }
+
+  .seat {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: min(50px, 6vw);
+    height: min(50px, 6vw);
+    font-size: 0.85rem;
+    margin: 0 2rem;
+  }
+}
+
+/* Desktop: 1024px+ */
+@media (min-width: 1024px) {
+  .seat-map-container {
+    display: flex;
+    justify-content: center;
+    padding: 3rem;
+    max-width: 70vw;
+    margin: 2rem auto;
+  }
+
+  .seat-map-grid {
+    gap: 1.4rem;
+  }
+
+  .seat {
+    width: 42px;
+    height: 42px;
+    font-size: 1rem;
+  }
+}
+
+
+

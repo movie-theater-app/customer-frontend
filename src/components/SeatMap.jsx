@@ -1,16 +1,27 @@
 import { useState, useEffect } from "react";
 import { seatApi } from '../api/seatApi';
+import { FaWheelchair } from "react-icons/fa6";
 import '../CSS/SeatMap.css';
 
-export default function SeatMap({ auditoriumId }) {
+// SeatMap component with props 
+export default function SeatMap({ 
+    auditoriumId, 
+    onSelectionChange, 
+    heldSeats = [], 
+    locked = false }) {
+
   const [seats, setSeats] = useState([]);
   const [selectedSeats, setSelectedSeats] = useState([]);
+  const [rows, setRows] = useState(0);
+  const [columns, setColumns] = useState(0);
 
   // Fetch seats from backend
   const fetchSeats = async () => {
     try {
       const data = await seatApi.getSeats(auditoriumId);
-      setSeats(data); // data already has row, number, status
+      setSeats(data.seats); // array, data already has row, number, status
+      setRows(data.rows);
+      setColumns(data.columns);
     } catch (error) {
       console.error("Error fetching seats:", error);
     }
@@ -20,68 +31,54 @@ export default function SeatMap({ auditoriumId }) {
     if (auditoriumId) fetchSeats();
   }, [auditoriumId]);
 
-  const toggleSelect = (seat) => {
-    if (seat.status === 'reserved') return;
-    const seatId = `${seat.row}${seat.number}`;
-    if (selectedSeats.includes(seatId)) {
-      setSelectedSeats(selectedSeats.filter(s => s !== seatId));
-    } else {
-      setSelectedSeats([...selectedSeats, seatId]);
-    }
-  };
+  useEffect(() => {
+    onSelectionChange(selectedSeats);
+  }, [selectedSeats]);
 
-  const reserveSeats = async () => {
-    if (selectedSeats.length === 0) {
-      alert("Please select at least one seat.");
+  const toggleSelect = (seat) => {
+    if (seat.status === 'reserved' || locked) { 
+      if (locked) alert("Cancel previous selections first!"); // prevent selection if locked
       return;
     }
-    try {
-      const result = await seatApi.reserveSeats(auditoriumId, selectedSeats);
-      if (result.success) {
-        alert("Seats reserved!");
-        setSelectedSeats([]);
-        fetchSeats();
-      } else {
-        alert("Some seats already reserved: " + JSON.stringify(result.alreadyReserved));
-        fetchSeats();
-      }
-    } catch (error) {
-      alert("Error reserving seats. See console.");
-      console.error(error);
-    }
+    const seatId = `${seat.row}${seat.number}`;
+    const availableSeat = selectedSeats.includes(seatId);
+
+    const newSeatList = availableSeat
+      ? selectedSeats.filter(seat => seat !== seatId)
+      : [...selectedSeats, seatId];
+
+    setSelectedSeats(newSeatList); 
   };
 
-  // Auto columns based on seat count (simplified, dynamic layout can be improved)
-  const columns = 15;
-
   return (
-    <div>
-      <h2>Seat map</h2>
-      <div className="seat-map-grid">
-        {seats.map(seat => {
-          const seatId = `${seat.row}${seat.number}`;
-          let seatClass = 'seat available';
-          if (seat.status === 'reserved') seatClass = 'seat reserved';
-          else if (selectedSeats.includes(seatId)) seatClass = 'seat selected';
+    <>
+      <div className="seat-map-container">
+        <div className="seat-map-grid"
+          style={{ gridTemplateColumns: `repeat(${columns}, 20px)` }}>
+          {seats.map(seat => {
+            const seatId = `${seat.row}${seat.number}`;
+            const isWheelchair = seat.seat_type === "disabled";
 
-          return (
-            <div
-              key={seatId}
-              className={seatClass}
-              onClick={() => toggleSelect(seat)}
-            >
-              {seatId}
-            </div>
-          );
-        })}
+            let seatClass = 'seat available';
+            if (seat.status === 'reserved') seatClass = "seat reserved";
+            else if (heldSeats.includes(seatId)) seatClass = 'seat on-hold';
+            else if (selectedSeats.includes(seatId)) seatClass = "seat selected";
+            if (isWheelchair) seatClass += " wheelchair";
+            if (locked) seatClass += " locked";
+            
+            return (
+              <div
+                key={seatId}
+                className={seatClass}
+                onClick={() => toggleSelect(seat)}
+              >
+                {isWheelchair ? <FaWheelchair /> : seatId}
+              </div>
+            );
+          })}
+        </div>
       </div>
-      <button
-        onClick={reserveSeats}
-        className="reserve-button"
-      >
-        Reserve selected seats
-      </button>
-    </div>
+    </>
   );
 }
 
