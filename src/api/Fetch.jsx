@@ -61,6 +61,19 @@ export const movieApi = {
     }
   },
 
+  getById: async (id) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/movies/${id}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching movie:', error);
+      throw error;
+    }
+  },
+
   searchWithFilters: async (query, theaterIds = [], selectedDate = null) => {
     try {
 

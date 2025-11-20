@@ -53,7 +53,20 @@ function Main() {
                 const style = m.poster_url
                   ? { backgroundImage: `url(${m.poster_url})`, backgroundSize: 'cover', backgroundPosition: 'center' }
                   : {};
-                return <div key={key} className="movie-box-big" style={style} title={m.title || ''}></div>;
+                const handleClick = () => {
+                  if (m.id) {
+                    window.location.href = `/movie/${m.id}`;
+                  }
+                };
+                return (
+                  <div 
+                    key={key} 
+                    className="movie-box-big" 
+                    style={{...style, cursor: m.id ? 'pointer' : 'default'}} 
+                    title={m.title || ''}
+                    onClick={handleClick}
+                  ></div>
+                );
               })
             ) : (
               <div className="no-results">No movies found!</div>
