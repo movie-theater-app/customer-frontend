@@ -1,12 +1,19 @@
 import './App.css'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Main from './views/Main'
+import SelectSeats from './views/SelectSeats';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Main />
   },
+  {
+    path: "/seat-map/:auditoriumId", 
+    element: <SelectSeats />
+  },
+ 
+
 ]);
 
 function App() {
