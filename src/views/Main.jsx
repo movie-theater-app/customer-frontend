@@ -1,10 +1,24 @@
+import { useState } from 'react'
 import TheaterDropdown from '../components/TheaterDropdown'
-import MovieDropdown from '../components/MovieDropdown'
+import MovieSearch from '../components/MovieSearch'
+import SchedulePicker from '../components/SchedulePicker'
 import logo from '../assets/logo.png'
-import date_picker from '../assets/date-picker.png'
 import '../App.css'
 
 function Main() {
+  const [searchedMovies, setSearchedMovies] = useState([]);
+  const [hasSearched, setHasSearched] = useState(false);
+  const [selectedTheaters, setSelectedTheaters] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(null);
+
+  const handleTheaterChange = (theaterIds) => {
+    setSelectedTheaters(theaterIds);
+  };
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
   return (
     <>
       <img src={logo} className="logo"/>
@@ -21,17 +35,37 @@ function Main() {
       <div className="separator"></div>
       <div className="bottom-section">
         <h2>Choose theaters</h2>
-        <TheaterDropdown />
-        <h2>Select movie</h2>
-        <MovieDropdown />
+        <TheaterDropdown onSelectionChange={handleTheaterChange} />
+  <h2>Select movie</h2>
+  <MovieSearch 
+    onResults={setSearchedMovies} 
+    onSearched={setHasSearched}
+    selectedTheaters={selectedTheaters}
+    selectedDate={selectedDate}
+  />
         <h2>Select date</h2>
-        <img src={date_picker} className="date-picker" />
-        <div className="date-display">6th of November</div>
+        <SchedulePicker onDateChange={handleDateChange} />
         <div className="movies-container">
-          <div className="movie-box-big"></div>
-          <div className="movie-box-big"></div>
-          <div className="movie-box-big"></div>
-          <div className="movie-box-big"></div>
+          {hasSearched ? (
+            searchedMovies && searchedMovies.length > 0 ? (
+              searchedMovies.map((m, idx) => {
+                const key = m.id ?? `${idx}-${m.poster_url}`;
+                const style = m.poster_url
+                  ? { backgroundImage: `url(${m.poster_url})`, backgroundSize: 'cover', backgroundPosition: 'center' }
+                  : {};
+                return <div key={key} className="movie-box-big" style={style} title={m.title || ''}></div>;
+              })
+            ) : (
+              <div className="no-results">No movies found!</div>
+            )
+          ) : (
+            <>
+              <div className="movie-box-big"></div>
+              <div className="movie-box-big"></div>
+              <div className="movie-box-big"></div>
+              <div className="movie-box-big"></div>
+            </>
+          )}
         </div>
       </div>
       <footer className="contact-info-footer">
