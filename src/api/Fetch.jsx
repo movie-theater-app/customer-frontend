@@ -59,7 +59,7 @@ export const movieApi = {
     }
   },
 
-  searchWithFilters: async (query, theaterIds = []) => {
+  searchWithFilters: async (query, theaterIds = [], selectedDate = null) => {
     try {
 
       const schedules = await scheduleApi.getAllSchedules();
@@ -70,6 +70,14 @@ export const movieApi = {
         filteredSchedules = filteredSchedules.filter(schedule => 
           theaterIds.includes(schedule.theater_id)
         );
+      }
+      
+      // Filter schedules by date
+      if (selectedDate) {
+        filteredSchedules = filteredSchedules.filter(schedule => {
+          const scheduleDate = schedule.screening_date || schedule.date;
+          return scheduleDate === selectedDate;
+        });
       }
       
       const movieIds = [...new Set(filteredSchedules.map(s => s.movie_id))];

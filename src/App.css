@@ -146,6 +146,24 @@ h2 {
   text-align: center;
 }
 
+.rmdp-ep-arrow,
+.rmdp-ep-arrow:after {
+  display: none;
+}
+
+/* Position DatePicker below the button */
+.schedule-picker-container > div {
+  position: static !important;
+}
+
+.schedule-picker-container .rmdp-wrapper {
+  position: absolute !important;
+  top: 60px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  pointer-events: auto !important;
+}
+
 .movies-container {
   display: flex;
   justify-content: center;

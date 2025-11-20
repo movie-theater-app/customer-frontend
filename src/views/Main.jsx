@@ -1,17 +1,22 @@
 import { useState } from 'react'
 import TheaterDropdown from '../components/TheaterDropdown'
 import MovieSearch from '../components/MovieSearch'
+import SchedulePicker from '../components/SchedulePicker'
 import logo from '../assets/logo.png'
-import date_picker from '../assets/date-picker.png'
 import '../App.css'
 
 function Main() {
   const [searchedMovies, setSearchedMovies] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
   const [selectedTheaters, setSelectedTheaters] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(null);
 
   const handleTheaterChange = (theaterIds) => {
     setSelectedTheaters(theaterIds);
+  };
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
   };
 
   return (
@@ -36,10 +41,10 @@ function Main() {
     onResults={setSearchedMovies} 
     onSearched={setHasSearched}
     selectedTheaters={selectedTheaters}
+    selectedDate={selectedDate}
   />
         <h2>Select date</h2>
-        <img src={date_picker} className="date-picker" />
-        <div className="date-display">6th of November</div>
+        <SchedulePicker onDateChange={handleDateChange} />
         <div className="movies-container">
           {hasSearched ? (
             searchedMovies && searchedMovies.length > 0 ? (

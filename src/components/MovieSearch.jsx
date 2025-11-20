@@ -1,18 +1,20 @@
 import { useState } from 'react'
 import { movieApi } from '../api/Fetch'
 
-export default function MovieSearch({ onResults, onSearched, selectedTheaters }) {
+export default function MovieSearch({ onResults, onSearched, selectedTheaters, selectedDate }) {
   const [query, setQuery] = useState('');
 
   const onSubmit = async (e) => {
     e.preventDefault();
     
-    if (selectedTheaters.length === 0) {
+    // Require theaters to be selected
+    if (!selectedTheaters || selectedTheaters.length === 0) {
+      console.log('No theaters selected');
       return;
     }
     
     try {
-      const data = await movieApi.searchWithFilters(query.trim(), selectedTheaters);
+      const data = await movieApi.searchWithFilters(query.trim(), selectedTheaters, selectedDate);
       const list = Array.isArray(data) ? data : [];
       onResults && onResults(list);
       onSearched && onSearched(true);
