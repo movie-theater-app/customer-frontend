@@ -33,7 +33,9 @@ describe('Movie Search', () => {
   })
 
   // Test 5: Tests movie search functionality with movie name as filter, resulting in movies found
-  it('Should search movies with movie name as filter resulting in movies found', () => {
+  it('Should search movies with date filter resulting in movies found', () => {
+    cy.get('.date-picker').click()
+    cy.get('.rmdp-day').contains('14').click()
     cy.get('input[placeholder="Search movies"]').type('Spiderman')
     cy.get('button').contains('Search').click()
     cy.get('.movies-container').children().should('have.length.greaterThan', 0)
@@ -42,6 +44,8 @@ describe('Movie Search', () => {
 
   // Test 6: Tests movie search functionality with theater filter resulting in no movies found
   it('Should search movies with theater filter resulting in no movies found', () => {
+    cy.get('.date-picker').click()
+    cy.get('.rmdp-day').contains('14').click()
     cy.get('.selection').click()
     cy.get('.dropdown-item').contains('Cinema Nova Oulu').click()
     cy.get('.selection').click()
@@ -52,6 +56,8 @@ describe('Movie Search', () => {
   
   // Test 7: Tests movie search functionality with deselecting theaters and still finding movies
   it('Should search movies with theater filter resulting in movies found', () => {
+    cy.get('.date-picker').click()
+    cy.get('.rmdp-day').contains('14').click()
     cy.get('.selection').click()
     cy.get('.dropdown-item').contains('Kino Baltic Turku').click()
     cy.get('.dropdown-item').contains('Elokuvateatteri Helsinki Central').click()
@@ -60,6 +66,14 @@ describe('Movie Search', () => {
     cy.get('button').contains('Search').click()
     cy.get('.movies-container').children().should('have.length.greaterThan', 0)
     cy.get('.no-results').should('not.exist')
+  })
+
+  // Test 8: Tests movie search functionality with date filter resulting in no movies found
+  it('Should search movies with date filter resulting in no movies found', () => {
+    cy.get('.date-picker').click()
+    cy.get('.rmdp-day').contains('1').click()
+    cy.get('button').contains('Search').click()
+    cy.get('.no-results').should('be.visible')
   })
 
 })
