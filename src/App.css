@@ -1,9 +1,16 @@
 * {
   box-sizing: border-box;
 }
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column; 
+  min-height: 100vh;
+}
+
 
 #root {
-  margin: 0 auto;
+  margin: 0;
   background-color: #09132c;
   overflow-x: hidden;
   width: 100%;
@@ -12,18 +19,16 @@
 h1 {
   color: #caf9ff;
   text-align: center;
-  font-family: Georgia;
   font-weight: 200;
-  font-size: 3em;
+  font-size: 1.5em;
   margin-bottom: 10px;
   margin-top: 16px;
 }
 
 h2 {
   color: #caf9ff;
-  font-size: 1.8em;
+  font-size: 1em;
   margin-bottom: 10px;
-  margin: 12px;
 }
 
 .selection {
