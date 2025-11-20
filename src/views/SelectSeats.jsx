@@ -4,7 +4,7 @@ import SeatMap from '../components/SeatMap';
 import ReservationPanel from "../components/ReservationPanel";
 import { seatApi } from "../api/seatApi";
 import Navbar from '../components/Navbar';
-import '../CSS/ReservationPanel.css';
+import '../CSS/reservationPanel.css';
 
 export default function SelectSeatsPage() {
   const { auditoriumId } = useParams(); // get auditorium ID from URL
