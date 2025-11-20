@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { seatApi } from '../api/seatApi';
 import { FaWheelchair } from "react-icons/fa6";
-import '../CSS/SeatMap.css';
+import '../CSS/seatMap.css';
 
 // SeatMap component with props 
 export default function SeatMap({ 
