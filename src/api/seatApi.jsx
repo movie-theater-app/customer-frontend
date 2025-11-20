@@ -15,13 +15,21 @@ export const seatApi = {
     }
   },
 
-  // reserve selected seats for a specific auditorium
+  // reserve selected seats for a specific auditorium (for hold first)
   reserveSeats: async (auditoriumId, selectedSeats) => {
+    const formattedSeats = selectedSeats.map(id => ({
+      row: id[0],
+      number: parseInt(id.slice(1), 10)
+    }));
+
     try {
       const response = await fetch(`${VITE_API_BASE_URL}/seats/${auditoriumId}/seats/reserve`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ seats: selectedSeats }) // auditoriumId is now in URL
+        body: JSON.stringify({
+          auditoriumId,
+          seats: formattedSeats
+        }) 
       });
 
       if (!response.ok) {
@@ -34,5 +42,30 @@ export const seatApi = {
       console.error('Error reserving seats:', error);
       throw error;
     }
-  }
+  },
+  // release held seats
+  releaseSeats: async (auditoriumId, seatsToRelease) => {
+      try {
+        const formattedSeats = seatsToRelease.map(id => ({
+          row: id[0],
+          number: parseInt(id.slice(1), 10)
+        }));
+
+        const response = await fetch(`${VITE_API_BASE_URL}/seats/${auditoriumId}/seats/release`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ seats: formattedSeats })
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.error || 'Failed to release seats');
+        }
+
+        return await response.json();
+      } catch (error) {
+        console.error('Error releasing seats:', error);
+        throw error;
+      }
+    }
 };
