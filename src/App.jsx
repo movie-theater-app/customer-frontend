@@ -12,11 +12,11 @@ const router = createBrowserRouter([
   {
     path: "/movie/:movieId",
     element: <Movie />
-  }
+  },
   {
     path: "/seat-map/:auditoriumId", 
     element: <SelectSeats />
-  },
+  }
  
 
 ]);
