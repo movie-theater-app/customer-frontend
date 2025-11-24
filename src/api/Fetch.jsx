@@ -57,7 +57,7 @@ export const auditoriumApi = {
 export const scheduleApi = {
   getAllSchedules: async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/schedules/`);
+      const response = await fetch(`${VITE_API_BASE_URL}/schedules/`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -75,8 +75,8 @@ export const movieApi = {
     try {
       const q = (query || '').trim();
       const url = q
-        ? `${API_BASE_URL}/movies?query=${encodeURIComponent(q)}`
-        : `${API_BASE_URL}/movies`;
+        ? `${VITE_API_BASE_URL}/movies?query=${encodeURIComponent(q)}`
+        : `${VITE_API_BASE_URL}/movies`;
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -98,7 +98,7 @@ export const movieApi = {
 
   getById: async (id) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/movies/${id}`);
+      const response = await fetch(`${VITE_API_BASE_URL}/movies/${id}`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
