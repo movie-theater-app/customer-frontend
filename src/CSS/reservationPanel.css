@@ -1,0 +1,42 @@
+.reservation-panel {
+  margin-top: 4rem;
+  padding: 1rem;
+  color: white;
+  background: rgba(255, 255, 255, 0.158);
+  width: 100vw;
+  text-align: center;
+}
+
+.checkout-btn {
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+  padding: 0.4rem 1rem;
+  background: #21a3af;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.checkout-btn:hover,
+.checkout-btn:active {
+  background-color: rgba(218, 171, 43, 0.863);
+  transition: background-color 0.2s ease-in-out;
+}
+
+
+.cancel-btn {
+  margin-left: 1rem;
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+  padding: 0.4rem 1rem;
+  background: #900;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.cancel-btn:hover,
+.cancel-btn:active {
+  background-color: rgb(192, 1, 1);
+  transition: background-color 0.2s ease-in-out;
+}
