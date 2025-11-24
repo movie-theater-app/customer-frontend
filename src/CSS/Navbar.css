@@ -3,8 +3,9 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  border-bottom: 1px solid #6DCFF6;
-  background: linear-gradient(to bottom, #08112E 0%, #0A2C48 45%, #16566F 70%, #58a4a9ff 100%);
+  color: white;
+  padding-top: 2.5rem;
+  background: linear-gradient(to bottom, #08112E 30%, #0A2C48 55%, #16566F 75%, #58a4a9ff 100%);
 }
 
 .navbar-logo {
@@ -31,4 +32,20 @@
   height: 100%;
   pointer-events: none;
   z-index: 2;
+}
+
+@media (min-width: 600px) {
+  .navbar-logo {
+    max-width: 90px;
+  }
+}
+@media (min-width: 900px) {
+  .navbar-logo {
+    max-width: 110px;
+  }
+}
+@media (min-width: 1200px) {
+  .navbar-logo {
+    max-width: 130px;
+  }
 }

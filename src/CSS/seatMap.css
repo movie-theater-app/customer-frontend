@@ -1,5 +1,4 @@
 
-
 /* Container */
 .seat-map-container {
   display: block;
@@ -7,23 +6,23 @@
   border-radius: 8px;
   padding: 20px;
   overflow-x: auto;
-  margin: 1rem 0.6rem;
+  margin: 2rem;
   max-width: 100vw;
   text-align: center;
 }
 
 .seat-map-grid {
   display: grid;
-  gap: 0.8rem;
+  gap: 0.7rem;
   grid-auto-flow: row;
   width: max-content;
-  padding: 0.2rem;
+  padding: 0.2rem 0.5rem 0 0;
 }
 
 /* Individual seat */
 .seat {
   width: min(40px, 7vw);
-  height: min(40px, 7vw);
+  height: min(30px, 6vw);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -32,8 +31,11 @@
   font-weight: 600;
   color: white;
   cursor: pointer;
+  border-top-left-radius: 50% 50%;
+  border-top-right-radius: 50% 50%;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
 }
-
 
 /* Seat states */
 .seat.available {
@@ -66,11 +68,56 @@
   cursor: not-allowed;
   opacity: 0.8;
 }
+
+.screen-label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  min-width: 400px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-top: 2.5rem;
+  padding: 0 4rem;
+  color: #fff;
+  border: 1px solid white;
+  border-radius: 4px;
+}
+
+.info-section {
+  display: flex;
+  flex-direction: row !important;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  width: max-content; 
+  justify-content: flex-start;
+  gap: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  color: white;
+}
+
+.info-color {
+  width: 10px;
+  height: 10px;
+  border-radius: 50px;
+  display: inline-block;
+  border: 1px solid #fff;
+}
+
 .reserve-btn-container {
   display:flex;
   flex-direction: column;
   justify-content: center;
-  margin: 0.3rem 1rem;
+  margin: 0.3rem 3rem;
 }
 
 .reserve-button {
@@ -78,61 +125,207 @@
   color: white;
   font-size: 1rem;;
   margin-top: 20px;
-  padding: 0.2rem 1rem;
+  padding: 0.3rem 1rem;
   font-weight: bold;
   cursor: pointer;
 }
 
-.reserve-button:hover {
+.reserve-button:hover, 
+.reserve-button:active {
   background-color: rgba(218, 171, 43, 0.863);
   transition: background-color 0.2s ease-in-out;
 }
 
+
+/* Responsiveness */
+@media (min-width: 380px) {
+.screen-label {
+  margin-left: 2.5rem;
+}
+.seat-map-container {
+  margin: 2rem 1.2rem;
+}
+}
+@media (min-width: 420px) {
+
+.seat-map-container {
+  overflow-x: auto;
+  margin: 2rem 1.5rem;
+}
+.seat-map-grid {
+  display: grid;
+  gap: 0.9rem;
+  grid-auto-flow: row;
+  width: max-content;
+  padding: 0.2rem 0.5rem 0 0;
+}
+
+.seat {
+  width: min(50px, 7vw);
+  height: min(40px, 6vw);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  border-top-left-radius: 50% 50%;
+  border-top-right-radius: 50% 50%;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+.info-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  font-size: 0.9rem;
+  color: white;
+}
+
+.info-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 50px;
+  display: inline-block;
+  border: 1px solid #fff;
+}
+.screen-label {
+  margin-left: 3.9rem;
+}
+}
+
+@media (min-width: 450px) {
+.seat-map-container {
+  overflow-x: auto;
+}
+.seat-map-grid {
+  display: grid;
+  gap: 0.9rem;
+  grid-auto-flow: row;
+  width: max-content;
+  padding: 0.2rem 0.7rem 0 0;
+}
+.seat {
+  width: min(40px, 6vw);
+  height: min(40px, 6vw);
+  font-size: 0.8rem;
+  margin: -0.15rem;
+}
+}
+
 @media (min-width: 500px) {
-  .seat-map-container {
-    display: flex;
-    justify-content: center;
-    padding: 1rem;
-    margin: 2rem auto;
-    max-width: 95vw;
-  }
-
-  .seat-map-grid {
-    gap: 1rem;
-    padding: 1rem 3rem 1rem 3rem;
-  }
-
-  .seat {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: min(50px, 6vw);
-    height: min(50px, 6vw);
-    font-size: 0.85rem;
-    margin: 0 2rem;
-  }
+.seat-map-grid {
+  gap: 1rem;
+  padding: 0.2rem 0.7rem 0 0;
 }
-
-/* Desktop: 1024px+ */
-@media (min-width: 1024px) {
-  .seat-map-container {
-    display: flex;
-    justify-content: center;
-    padding: 3rem;
-    max-width: 70vw;
-    margin: 2rem auto;
-  }
-
-  .seat-map-grid {
-    gap: 1.4rem;
-  }
-
-  .seat {
-    width: 42px;
-    height: 42px;
-    font-size: 1rem;
-  }
+.seat {
+  width: min(40px, 6vw);
+  height: min(40px, 6vw);
+  font-size: 0.8rem;
+  margin: -0.3rem;
 }
+}
+@media (min-width: 520px) {
+.seat-map-grid {
+  gap: 1rem;
+  padding: 0.2rem 0.7rem 0 0;
+}
+.seat {
+  width: min(40px, 6vw);
+  height: min(40px, 6vw);
+  font-size: 0.8rem;
+  margin: -0.2rem;
+}
+.screen-label {
+  margin-left: 4.4rem;
+}
+}
+@media (min-width: 565px) {
+.seat-map-grid {
+  gap: 1.1rem;
+}
+.seat {
+  width: min(40px, 5.5vw);
+  height: min(40px, 5.5vw);
+  font-size: 0.9rem;
+  margin: -0.3rem;
+}
+}
+@media (min-width: 600px) {
+.seat-map-container {
+  padding: 1rem 2em;
+}
+.seat-map-grid {
+  gap: 1.3rem;
+  align-items: center;
+}
+.seat {
+  width: min(40px, 5vw);
+  height: min(40px, 5vw);
+  margin: -0.5rem;
+}
+.screen-label {
+  margin-right: 4rem;
+}
+}
+@media (min-width: 660px) {
+.seat-map-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  margin: 2rem;
+  max-width: fit-content;
+}
+.seat-map-grid {
+  gap: 1.2rem;
+  margin: 0rem 2rem 0 3rem;
+}
+.seat {
+  width: min(40px, 4.5vw);
+  height: min(40px, 4.5vw);
+  margin: -0.4rem;
+}
+}
+@media (min-width: 800px) {
+ .seat-map-container {
+    margin: 2rem auto; 
+    max-width: fit-content;
+    padding: 1.5rem 4rem;
+  }
+.seat-map-grid {
+    gap: 1.3rem;
+    margin: 0 auto; 
+  }
+.seat {
+  width: min(40px, 4vw);
+  height: min(40px, 4vw);
+  margin: -0.3rem;
+}
+}
+@media (min-width: 900px) {
+.seat {
+  width: min(40px, 4vw);
+  height: min(40px, 4vw);
+  margin: -0.3rem;
+}
+}
+@media (min-width: 940px) {
 
-
-
+.seat-map-grid {
+  gap: 1.6rem;
+  margin: 0rem 2rem 0 3rem;
+}
+.seat {
+  width: min(40px, 4vw);
+  height: min(40px, 4vw);
+  margin: -0.3rem;
+}
+.reserve-button {
+  font-size: 1.1rem;;
+}
+}
