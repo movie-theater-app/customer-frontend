@@ -21,9 +21,17 @@ export default function ReservationPanel({ heldSeats, expiresAt, onCancel }) {
 
   return (
     <div className="reservation-panel">
-      <h3>Your reservation:</h3>
-      <p>Seats: {heldSeats.join(", ")}</p>
-      <p>Reserved for: {minutes}:{seconds.toString().padStart(2, "0")}</p>
+      <h3>Your reservation :</h3>
+      <p>Seats : {heldSeats.join(", ")}</p>
+      <p>Reserved for :  
+        <span 
+        style={{backgroundColor: "#a37e28ff", 
+                padding: "1px 5px",              
+                borderRadius: "6px",
+                display: "inline-block",
+                marginLeft: "5px",
+                fontWeight: "600"}} >
+        {minutes}:{seconds.toString().padStart(2, "0")}</span></p>
 
       <button className="checkout-btn">Proceed to checkout</button>
       <button 

@@ -56,7 +56,7 @@ export default function SelectSeatsPage() {
       } 
     };
 
-     // Kun timer menee nollaan, vapautetaan paikat automaattisesti
+     // When timer hits zero, seats are released automatically 
   useEffect(() => {
     if (!holdExpiresAt) return;
     const interval = setInterval(() => {
@@ -71,7 +71,7 @@ export default function SelectSeatsPage() {
   return (
     <div>
        <Navbar />
-        <h1>Choose your seats</h1>
+        <h1 style= {{marginTop: "2rem"}}>Choose your seats</h1>
       <SeatMap 
         auditoriumId={auditoriumId}
         onSelectionChange={setSelectedSeats}
