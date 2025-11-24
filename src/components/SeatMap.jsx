@@ -53,6 +53,20 @@ export default function SeatMap({
   return (
     <>
       <div className="seat-map-container">
+         <div className="info-section">
+            <div className="info-item">
+              <span className="info-color" style={{backgroundColor: 'green'}}></span> Available
+            </div>
+            <div className="info-item">
+              <span className="info-color" style={{backgroundColor: 'orange'}}></span> Selected
+            </div>
+            <div className="info-item">
+              <span className="info-color" style={{backgroundColor: 'rgb(201, 2, 2)'}}></span> Reserved
+            </div>
+            <div className="info-item">
+              <span ><FaWheelchair /></span> Wheelchair/disabled seat
+            </div>
+         </div>
         <div className="seat-map-grid"
           style={{ gridTemplateColumns: `repeat(${columns}, 20px)` }}>
           {seats.map(seat => {
@@ -77,6 +91,7 @@ export default function SeatMap({
             );
           })}
         </div>
+        <div className="screen-label"> Screen </div>
       </div>
     </>
   );
