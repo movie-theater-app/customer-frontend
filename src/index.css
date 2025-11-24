@@ -23,7 +23,7 @@ html, body, #root {
   min-width: 320px;
   min-height: 100vh;
   width: 100%;
-  background: linear-gradient(180deg, #0E3753 0%, #0C1B3A 45%, #09102D 100%);
+  background: linear-gradient(180deg, #0E3753 15%, #0C1B3A 35%, #09102D 100%);
 }
 
 body {
