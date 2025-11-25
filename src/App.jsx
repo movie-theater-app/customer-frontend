@@ -14,7 +14,7 @@ const router = createBrowserRouter([
     element: <Movie />
   },
   {
-    path: "/seat-map/:auditoriumId", 
+    path: "/seat-map/:scheduleId", 
     element: <SelectSeats />
   }
  
