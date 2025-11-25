@@ -11,7 +11,7 @@ export function useMovieSchedules(movieId) {
       if (!movieId) return;
       
       try {
-        const allSchedules = await scheduleApi.getAllSchedules();
+        const allSchedules = await scheduleApi.getSchedulesWithTheaterInformation();
         const movieSchedulesData = allSchedules.filter(s => s.movie_id === parseInt(movieId));
         setMovieSchedules(movieSchedulesData);
         

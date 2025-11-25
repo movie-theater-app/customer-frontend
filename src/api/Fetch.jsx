@@ -67,6 +67,26 @@ export const scheduleApi = {
       throw error;
     }
   },
+
+  getSchedulesWithTheaterInformation: async () => {
+    try {
+      const [schedules, theaters, auditoriums] = await Promise.all([
+        scheduleApi.getAllSchedules(),
+        theaterApi.getAllTheaters(),
+        auditoriumApi.getAllAuditoriums()
+      ]);
+
+      return schedules.map(schedule => ({
+        ...schedule,
+        theater_name: theaters.find(t => t.id === schedule.theater_id)?.name,
+        theater_address: theaters.find(t => t.id === schedule.theater_id)?.address,
+        auditorium_name: auditoriums.find(a => a.id === schedule.auditorium_id)?.name
+      }));
+    } catch (error) {
+      console.error('Error fetching schedules with theater names:', error);
+      throw error;
+    }
+  },
 };
 
 // Movies
