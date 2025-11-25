@@ -14,7 +14,7 @@ export default function ShowtimeCard({ schedule }) {
       <div className="auditorium-arrow">⯈</div>
       <div 
         className="select-auditorium" 
-        onClick={() => navigate(`/seat-map/${schedule.auditorium_id}`)}
+        onClick={() => navigate(`/seat-map/${schedule.id}`)}
         style={{ cursor: 'pointer' }}
       >
         <div className="showtime-auditorium">{schedule.auditorium_name}</div>
