@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { theaterApi } from '../api/Fetch'
 
-export default function TheaterDropdown({ onSelectionChange }) {
+export default function TheaterDropdown({ onSelectionChange, initialSelection = [] }) {
   const [isOpen, setIsOpen] = useState(false);
   const [theaters, setTheaters] = useState([]);
   const [selectedTheaters, setSelectedTheaters] = useState({});
@@ -12,15 +12,24 @@ export default function TheaterDropdown({ onSelectionChange }) {
         const data = await theaterApi.getAllTheaters();
         setTheaters(data);
         
-        // Start with all theaters selected
-        const initialSelection = {};
-        data.forEach(theater => {
-          initialSelection[theater.id] = true;
-        });
+        let initialSelection = {};
+        if (initialSelection.length > 0) {
+          // Use provided initial selection
+          data.forEach(theater => {
+            initialSelection[theater.id] = initialSelection.includes(theater.id);
+          });
+        } else {
+          // Start with all theaters selected
+          data.forEach(theater => {
+            initialSelection[theater.id] = true;
+          });
+        }
         setSelectedTheaters(initialSelection);
         
         if (onSelectionChange) {
-          const selectedIds = data.map(t => t.id);
+          const selectedIds = Object.keys(initialSelection)
+            .filter(id => initialSelection[id])
+            .map(id => parseInt(id));
           onSelectionChange(selectedIds);
         }
       } catch (error) {
@@ -29,7 +38,7 @@ export default function TheaterDropdown({ onSelectionChange }) {
     };
 
     loadTheaters();
-  }, []);
+  }, [initialSelection.join(',')]);
 
   const toggleDropdown = () => {
     setIsOpen(prev => !prev);

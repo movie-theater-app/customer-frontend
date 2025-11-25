@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom'
 import logo from '../assets/logo.png'
 import homebtn from '../assets/home.png'
 import '../App.css'
@@ -9,7 +9,10 @@ import SchedulePicker from '../components/SchedulePicker'
 
 export default function Movie() {
   const { movieId } = useParams();
+  const location = useLocation();
   const [movie, setMovie] = useState(null);
+  const [selectedTheaters, setSelectedTheaters] = useState(location.state?.selectedTheaters || []);
+  const [selectedDate, setSelectedDate] = useState(location.state?.selectedDate || null);
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -84,8 +87,14 @@ export default function Movie() {
         </div>
         <div className="separator"></div>
         <div className="movie-page-filters">
-            <TheaterDropdown />
-            <SchedulePicker />
+            <TheaterDropdown 
+              onSelectionChange={setSelectedTheaters}
+              initialSelection={selectedTheaters}
+            />
+            <SchedulePicker 
+              onDateChange={setSelectedDate}
+              initialDate={selectedDate}
+            />
         </div>
     </>
   )
