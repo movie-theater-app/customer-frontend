@@ -3,37 +3,47 @@ import { scheduleApi } from '../api/Fetch'
 import date_picker from '../assets/date-picker.png'
 import DatePicker from "react-multi-date-picker";
 
-export default function SchedulePicker({ onDateChange }) {
-  const [value, setValue] = useState(new Date());
+export default function SchedulePicker({ onDateChange, initialDate = null, availableDates = null }) {
+  const [value, setValue] = useState(initialDate ? new Date(initialDate) : new Date());
   const [scheduleDates, setScheduleDates] = useState([]);
   const datePickerRef = useRef();
 
   useEffect(() => {
     if (onDateChange) {
-      const today = new Date();
-      const year = today.getFullYear();
-      const month = String(today.getMonth() + 1).padStart(2, '0');
-      const day = String(today.getDate()).padStart(2, '0');
-      const dateStr = `${year}-${month}-${day}`;
-      onDateChange(dateStr);
+      if (initialDate) {
+        onDateChange(initialDate);
+      } else {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        const dateStr = `${year}-${month}-${day}`;
+        onDateChange(dateStr);
+      }
     }
-  }, []);
+  }, [initialDate]);
 
   useEffect(() => {
     const loadSchedules = async () => {
       try {
-        const schedules = await scheduleApi.getAllSchedules();
-        const dates = schedules.map(schedule => schedule.screening_date);
-        console.log('Loaded schedule dates:', dates);
-        const uniqueDates = [...new Set(dates)];
-        setScheduleDates(uniqueDates);
+        // Use availableDates if provided, otherwise fetch all schedules
+        if (availableDates) {
+          setScheduleDates(availableDates);
+          console.log('Using provided available dates:', availableDates);
+        } else {
+          const schedules = await scheduleApi.getAllSchedules();
+          const dates = schedules.map(schedule => schedule.screening_date);
+          console.log('Loaded schedule dates:', dates);
+          const uniqueDates = [...new Set(dates)];
+          setScheduleDates(uniqueDates);
+        }
       } catch (error) {
         console.error('Failed to load schedules:', error);
       }
     };
 
     loadSchedules();
-  }, []);
+  }, [availableDates ? availableDates.join(',') : 'all']);
 
   const mapDays = ({ date }) => {
     // YYYY-MM-DD format

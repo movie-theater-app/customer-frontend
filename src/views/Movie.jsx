@@ -1,15 +1,44 @@
 import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-import logo from '../assets/logo.png'
-import homebtn from '../assets/home.png'
+import { useParams, useLocation } from 'react-router-dom'
 import '../App.css'
 import { movieApi } from '../api/Fetch'
+import MovieHeader from '../components/MovieHeader'
+import MovieTrailer from '../components/MovieTrailer'
+import MovieDetails from '../components/MovieDetails'
 import TheaterDropdown from '../components/TheaterDropdown'
 import SchedulePicker from '../components/SchedulePicker'
+import MovieShowtimes from '../components/MovieShowtimes'
+import { useMovieSchedules } from '../components/MovieSchedules'
 
 export default function Movie() {
   const { movieId } = useParams();
+  const location = useLocation();
   const [movie, setMovie] = useState(null);
+  const { movieSchedules, availableTheaterIds, availableDates } = useMovieSchedules(movieId);
+  const [selectedTheaters, setSelectedTheaters] = useState(location.state?.selectedTheaters || []);
+  const [selectedDate, setSelectedDate] = useState(location.state?.selectedDate || null);
+
+  // Filter schedules based on selected theaters and date
+  const filteredSchedules = movieSchedules.filter(schedule => {
+    const matchesTheater = selectedTheaters.includes(schedule.theater_id);
+    const matchesDate = !selectedDate || schedule.screening_date === selectedDate;
+    return matchesTheater && matchesDate;
+  });
+
+  // Group schedules by theater
+  const groupedSchedules = filteredSchedules.reduce((groups, schedule) => {
+    const theaterKey = `${schedule.theater_id}-${schedule.theater_name}`;
+    if (!groups[theaterKey]) {
+      groups[theaterKey] = {
+        theater_id: schedule.theater_id,
+        theater_name: schedule.theater_name,
+        theater_address: schedule.theater_address,
+        showtimes: []
+      };
+    }
+    groups[theaterKey].showtimes.push(schedule);
+    return groups;
+  }, {});
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -29,64 +58,33 @@ export default function Movie() {
     }
   }, [movieId]);
 
-  // Convert YouTube URL to embed format
-  const getEmbedUrl = (url) => {
-    if (!url) return null;
-    
-    // If already an embed URL, return as is
-    if (url.includes('/embed/')) return url;
-    
-    // Extract video ID from various YouTube URL formats
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-    const match = url.match(regExp);
-    
-    if (match && match[2].length === 11) {
-      return `https://www.youtube.com/embed/${match[2]}`;
-    }
-    
-    // If not a YouTube URL, return original
-    return url;
-  };
-
-  if (!movie) {
-    return (
-      <div>
-        <img src={logo} className="logo"/>
-        <img src={homebtn} className="back-button" onClick={() => window.history.back()} alt="Back" />
-        <div>Loading movie... (ID: {movieId})</div>
-      </div>
-    );
-  }
-
-  const embedUrl = getEmbedUrl(movie.trailer_url);
-
   return (
     <>
-        <div>
-            <img src={logo} className="logo"/>
-            <img src={homebtn} className="back-button" onClick={() => window.history.back()} alt="Back" />
-        </div>
-        <div className="movie-trailer-container">
-            <div className="movie-trailer">
-              {embedUrl && (
-                <iframe
-                  src={embedUrl}
-                  frameBorder="0"
-                  allowFullScreen
-                ></iframe>
-              )}
+      <MovieHeader />
+      {!movie ? (
+        console.log('Waiting for movie data')
+      ) : (
+        <>
+          <MovieTrailer trailerUrl={movie.trailer_url} />
+          <MovieDetails movie={movie} />
+          <div className="separator"></div>
+          <div className="movie-bottom-section">
+            <div className="movie-page-filters">
+              <TheaterDropdown 
+                onSelectionChange={setSelectedTheaters}
+                initialSelection={selectedTheaters}
+                availableTheaterIds={availableTheaterIds}
+              />
+              <SchedulePicker 
+                onDateChange={setSelectedDate}
+                initialDate={selectedDate}
+                availableDates={availableDates}
+              />
             </div>
-        </div>
-        <div className="movie-details">
-                <h1 className="movie-title">{movie.title}</h1>
-            <p className="movie-description">{movie.description}</p>
-            <div className="movie-poster"><img src={movie.poster_url} /></div>
-        </div>
-        <div className="separator"></div>
-        <div className="movie-page-filters">
-            <TheaterDropdown />
-            <SchedulePicker />
-        </div>
+            <MovieShowtimes groupedSchedules={groupedSchedules} />
+          </div>
+        </>
+      )}
     </>
   )
 }

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import TheaterDropdown from '../components/TheaterDropdown'
 import MovieSearch from '../components/MovieSearch'
 import SchedulePicker from '../components/SchedulePicker'
@@ -6,6 +7,7 @@ import logo from '../assets/logo.png'
 import '../App.css'
 
 function Main() {
+  const navigate = useNavigate();
   const [searchedMovies, setSearchedMovies] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
   const [selectedTheaters, setSelectedTheaters] = useState([]);
@@ -55,7 +57,12 @@ function Main() {
                   : {};
                 const handleClick = () => {
                   if (m.id) {
-                    window.location.href = `/movie/${m.id}`;
+                    navigate(`/movie/${m.id}`, {
+                      state: {
+                        selectedTheaters,
+                        selectedDate
+                      }
+                    });
                   }
                 };
                 return (
