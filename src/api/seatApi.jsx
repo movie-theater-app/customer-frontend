@@ -4,9 +4,9 @@ const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const seatApi = {
   // get all seats for a specific auditorium
-  getSeats: async (auditoriumId) => {
+  getSeats: async (scheduleId) => {
     try {
-      const response = await fetch(`${VITE_API_BASE_URL}/seats/${auditoriumId}/seats`);
+      const response = await fetch(`${VITE_API_BASE_URL}/seats/${scheduleId}`);
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       return await response.json();
     } catch (error) {
@@ -16,18 +16,18 @@ export const seatApi = {
   },
 
   // reserve selected seats for a specific auditorium (for hold first)
-  reserveSeats: async (auditoriumId, selectedSeats) => {
+  reserveSeats: async (scheduleId, selectedSeats) => {
     const formattedSeats = selectedSeats.map(id => ({
       row: id[0],
       number: parseInt(id.slice(1), 10)
     }));
 
     try {
-      const response = await fetch(`${VITE_API_BASE_URL}/seats/${auditoriumId}/seats/reserve`, {
+      const response = await fetch(`${VITE_API_BASE_URL}/seats/reserve`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          auditoriumId,
+          scheduleId,
           seats: formattedSeats
         }) 
       });
@@ -44,17 +44,17 @@ export const seatApi = {
     }
   },
   // release held seats
-  releaseSeats: async (auditoriumId, seatsToRelease) => {
+  releaseSeats: async (scheduleId, seatsToRelease) => {
       try {
         const formattedSeats = seatsToRelease.map(id => ({
           row: id[0],
           number: parseInt(id.slice(1), 10)
         }));
 
-        const response = await fetch(`${VITE_API_BASE_URL}/seats/${auditoriumId}/seats/release`, {
+        const response = await fetch(`${VITE_API_BASE_URL}/seats/release`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ seats: formattedSeats })
+          body: JSON.stringify({ scheduleId, seats: formattedSeats })
         });
 
         if (!response.ok) {
