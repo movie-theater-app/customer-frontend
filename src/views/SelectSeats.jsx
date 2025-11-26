@@ -7,6 +7,7 @@ import Navbar from '../components/Navbar';
 import '../CSS/reservationPanel.css';
 
 export default function SelectSeatsPage() {
+
   const { auditoriumId } = useParams(); // get auditorium ID from URL
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [heldSeats, setHeldSeats] = useState([]);

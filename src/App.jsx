@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Main from './views/Main'
 import Movie from './views/Movie'
 import SelectSeats from './views/SelectSeats';
+import CheckoutPage from "./components/Payment/CheckoutPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -16,7 +17,11 @@ const router = createBrowserRouter([
   {
     path: "/seat-map/:auditoriumId", 
     element: <SelectSeats />
-  }
+  },
+    {
+        path: "/checkout",
+        element: <CheckoutPage />
+    }
  
 
 ]);

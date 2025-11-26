@@ -1,5 +1,6 @@
 // deployed backend address: https://demo-northstar-movie-theatre.azurewebsites.net
 // local address since database is not yet deployed
+
 const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL; 
 
 // Theaters
