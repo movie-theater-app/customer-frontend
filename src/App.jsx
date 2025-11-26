@@ -4,6 +4,8 @@ import Main from './views/Main'
 import Movie from './views/Movie'
 import SelectSeats from './views/SelectSeats';
 import CheckoutPage from "./components/Payment/CheckoutPage.jsx";
+import SuccessPayment from "./components/Payment/SuccessPayment.jsx";
+import PaymentPage from "./components/Payment/PaymentPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -19,8 +21,21 @@ const router = createBrowserRouter([
     element: <SelectSeats />
   },
     {
-        path: "/checkout",
-        element: <CheckoutPage />
+        path: '/payment',
+        children: [
+            {
+                path: "/payment/checkout",
+                element: < CheckoutPage />
+            },
+            {
+                path: "/payment/pay",
+                element: <PaymentPage />
+            },
+            {
+                path: "/payment/success",
+                element: <SuccessPayment />
+            }
+        ]
     }
  
 
