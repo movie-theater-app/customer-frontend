@@ -1,27 +1,45 @@
 import { useState, useEffect } from 'react'
 import { theaterApi } from '../api/Fetch'
 
-export default function TheaterDropdown({ onSelectionChange }) {
+export default function TheaterDropdown({ onSelectionChange, initialSelection = [], availableTheaterIds = null }) {
   const [isOpen, setIsOpen] = useState(false);
   const [theaters, setTheaters] = useState([]);
   const [selectedTheaters, setSelectedTheaters] = useState({});
+  const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
     const loadTheaters = async () => {
       try {
-        const data = await theaterApi.getAllTheaters();
+        const allData = await theaterApi.getAllTheaters();
+        
+        // Filter theaters if availableTheaterIds is provided
+        const data = availableTheaterIds 
+          ? allData.filter(t => availableTheaterIds.includes(t.id))
+          : allData;
+        
         setTheaters(data);
         
-        // Start with all theaters selected
-        const initialSelection = {};
-        data.forEach(theater => {
-          initialSelection[theater.id] = true;
-        });
-        setSelectedTheaters(initialSelection);
-        
-        if (onSelectionChange) {
-          const selectedIds = data.map(t => t.id);
-          onSelectionChange(selectedIds);
+        if (!initialized) {
+          let initialSelectionObj = {};
+          if (initialSelection.length > 0) {
+            data.forEach(theater => {
+              initialSelectionObj[theater.id] = initialSelection.includes(theater.id);
+            });
+          } else {
+            // Start with all theaters selected
+            data.forEach(theater => {
+              initialSelectionObj[theater.id] = true;
+            });
+          }
+          setSelectedTheaters(initialSelectionObj);
+          
+          if (onSelectionChange) {
+            const selectedIds = Object.keys(initialSelectionObj)
+              .filter(id => initialSelectionObj[id])
+              .map(id => parseInt(id));
+            onSelectionChange(selectedIds);
+          }
+          setInitialized(true);
         }
       } catch (error) {
         console.error('Failed to load theaters:', error);
@@ -29,7 +47,7 @@ export default function TheaterDropdown({ onSelectionChange }) {
     };
 
     loadTheaters();
-  }, []);
+  }, [availableTheaterIds ? availableTheaterIds.join(',') : 'all']);
 
   const toggleDropdown = () => {
     setIsOpen(prev => !prev);

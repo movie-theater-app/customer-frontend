@@ -7,15 +7,24 @@ import Navbar from '../components/Navbar';
 import '../CSS/reservationPanel.css';
 
 export default function SelectSeatsPage() {
-
-  const { auditoriumId } = useParams(); // get auditorium ID from URL
+  const { scheduleId } = useParams(); // get schedule ID from URL
+  const [movieId, setMovieId] = useState(null);
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [heldSeats, setHeldSeats] = useState([]);
   const [holdExpiresAt, setHoldExpiresAt] = useState(null);
 
-   const fetchSeats = async () => {
+  useEffect(() => {
+    // fetch schedule info from API
+    const fetchSchedule = async () => {
+      const data = await scheduleApi.getSchedule(scheduleId);
+      setMovieId(data.movie_id);
+    };
+    fetchSchedule();
+    }, [scheduleId]);
+    
+  const fetchSeats = async () => {
     try {
-      await seatApi.getSeats(auditoriumId); // pelkkä refresh, SeatMap hoitaa setSeats
+      await seatApi.getSeats(scheduleId); // refresh
     } catch (err) {
       console.error("Error fetching seats:", err);
     }
@@ -28,7 +37,7 @@ export default function SelectSeatsPage() {
         alert("Please select at least one seat!")
       return;
       }
-      const result = await seatApi.reserveSeats(auditoriumId, selectedSeats);
+      const result = await seatApi.reserveSeats(scheduleId, selectedSeats);
 
       if (result.success) {
         alert("Seats reserved on hold for you!");
@@ -47,7 +56,7 @@ export default function SelectSeatsPage() {
     const cancelHold = async () => {
       if (!heldSeats.length) return;
       try {
-        await seatApi.releaseSeats(auditoriumId, heldSeats);
+        await seatApi.releaseSeats(scheduleId, heldSeats);
         setHeldSeats([]);
         setHoldExpiresAt(null);
         await fetchSeats();
@@ -74,7 +83,7 @@ export default function SelectSeatsPage() {
        <Navbar />
         <h1 style= {{marginTop: "2rem"}}>Choose your seats</h1>
       <SeatMap 
-        auditoriumId={auditoriumId}
+        scheduleId={scheduleId}
         onSelectionChange={setSelectedSeats}
         heldSeats={heldSeats}
         locked={heldSeats.length > 0}  // lock seat map if seats are on hold
@@ -89,6 +98,8 @@ export default function SelectSeatsPage() {
       {heldSeats.length > 0 && (
         <ReservationPanel 
           heldSeats={heldSeats}
+          scheduleId={scheduleId}
+          movieId={movieId}
           expiresAt={holdExpiresAt}
           onCancel={cancelHold}
         />

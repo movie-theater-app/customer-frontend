@@ -129,10 +129,11 @@ h2 {
 .separator {
   height: 2px;
   background-color: gray;
-  margin: 10px 0;
+  margin: 0;
 }
 
 .bottom-section {
+  padding-top: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -315,13 +316,17 @@ h2 {
   border-radius: 10px;
 }
 
+.movie-bottom-section {
+  padding-top: 10px;
+  background: var(--bg-dark);
+}
+
 .movie-page-filters {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   gap: 100px;
-  background: linear-gradient(to bottom, var(--bg-medium), var(--bg-darker));
 }
 
 @media (max-width: 600px) {
@@ -329,4 +334,50 @@ h2 {
     flex-direction: column;
     gap: 20px;
   }
+}
+
+.movie-showtimes {
+  margin: 20px;
+}
+
+.showtime-theater-info {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.showtime-theater-address {
+  color: lightgray;
+}
+
+@media (max-width: 600px) {
+  .showtime-theater-info {
+    flex-direction: column;
+    gap: 0px;
+    margin-bottom: 10px;
+  }
+}
+
+.select-auditorium {
+  background-color: var(--bg-darker);
+  border-radius: 8px;
+  width: fit-content;
+  padding: 10px 30px;
+  margin-top: 12px;
+  border: 1px solid gray;
+  box-shadow: black 0px 4px 8px -2px;
+}
+
+.showtime-card {
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  margin-left: -12px;
+}
+
+.auditorium-arrow {
+  pointer-events: none;
+  color: var(--highlights);
 }
