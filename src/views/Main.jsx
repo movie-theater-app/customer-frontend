@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import TheaterDropdown from '../components/TheaterDropdown'
 import MovieSearch from '../components/MovieSearch'
 import SchedulePicker from '../components/SchedulePicker'
+import TrendingMovies from '../components/TrendingMovies'
 import logo from '../assets/logo.png'
 import '../App.css'
 
@@ -26,13 +27,10 @@ function Main() {
       <img src={logo} className="logo"/>
       <div className="top-section">
         <h1>Trending</h1>
-        <div className="carousel">
-          <div className="movie-box"></div>
-          <div className="movie-box"></div>
-          <div className="movie-box"></div>
-          <div className="movie-box"></div>
-          <div className="movie-box"></div>
-        </div>
+        <TrendingMovies 
+          selectedTheaters={selectedTheaters}
+          selectedDate={selectedDate}
+        />
       </div>
       <div className="separator"></div>
       <div className="bottom-section">

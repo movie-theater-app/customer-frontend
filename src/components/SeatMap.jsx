@@ -19,13 +19,19 @@ export default function SeatMap({
   const fetchSeats = async () => {
     try {
       const data = await seatApi.getSeats(scheduleId);
+      console.log("Seat API data:", data);
+
       setSeats(data.seats); // array, data already has row, number, status
       setRows(data.rows);
       setColumns(data.columns);
+
+      console.log("Seats state:", data.seats);
+      console.log("Rows:", data.rows, "Columns:", data.columns);
+
     } catch (error) {
       console.error("Error fetching seats:", error);
     }
-  };
+  };  
 
   useEffect(() => {
     if (scheduleId) fetchSeats();

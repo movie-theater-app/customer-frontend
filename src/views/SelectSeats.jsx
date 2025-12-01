@@ -13,22 +13,27 @@ export default function SelectSeatsPage() {
   const [heldSeats, setHeldSeats] = useState([]);
   const [holdExpiresAt, setHoldExpiresAt] = useState(null);
 
-  useEffect(() => {
+  /*useEffect(() => {
     // fetch schedule info from API
     const fetchSchedule = async () => {
       const data = await scheduleApi.getSchedule(scheduleId);
-      setMovieId(data.movie_id);
     };
     fetchSchedule();
-    }, [scheduleId]);
-    
+    }, [scheduleId]); */
+
+   // Fetch seats and movie info from seatApi
   const fetchSeats = async () => {
     try {
-      await seatApi.getSeats(scheduleId); // refresh
+      const data = await seatApi.getSeats(scheduleId); 
+      setMovieId(data.seats.length > 0 ? data.seats[0].movie_id : null);
     } catch (err) {
       console.error("Error fetching seats:", err);
     }
   };
+
+    useEffect(() => {
+    if (scheduleId) fetchSeats();
+  }, [scheduleId]);
 
   // function to reserve selected seats
   const reserveSelected = async () => {
