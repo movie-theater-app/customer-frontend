@@ -2,7 +2,7 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const paymentApi = {
 
-    createCheckoutSession: async (item, quantity, email) => {
+    createCheckoutSession: async (items, email) => {
         try {
             const response = await fetch(`${BASE_URL}/payment/create-checkout`, {
                 method: "POST",
@@ -10,8 +10,7 @@ export const paymentApi = {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    item,
-                    quantity,
+                    items,
                     email,
                 })
             });
