@@ -14,9 +14,10 @@ export const seatApi = {
       const response = await fetch(`${VITE_API_BASE_URL}/seats/${numScheduleId}`);
       
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-      return await response.json();
+      const data = await response.json();
+      return data;
     } catch (error) {
-      console.error('Error fetching seats:', error);
+      console.error('Error fetching seats:', error.message);
       throw error;
     }
   },
