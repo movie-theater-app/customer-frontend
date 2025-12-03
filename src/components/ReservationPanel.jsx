@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { bookingApi } from "../api/bookingApi";
 import { useNavigate } from "react-router-dom";
 
-export default function ReservationPanel({ heldSeats, expiresAt, onCancel }) {
+export default function ReservationPanel({ heldSeats, scheduleId, movieId, expiresAt, onCancel }) {
   const [timeLeft, setTimeLeft] = useState(expiresAt - Date.now());
 
   useEffect(() => {
@@ -38,7 +38,7 @@ export default function ReservationPanel({ heldSeats, expiresAt, onCancel }) {
         return;
       }
 
-      navigate(`/checkout/${result.bookingId}`);
+      navigate(`/payment/checkout/${result.bookingId}`);
     } catch (err) {
       console.error(err);
       alert("Error when creating booking");
