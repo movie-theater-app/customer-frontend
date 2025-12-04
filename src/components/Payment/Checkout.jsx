@@ -29,6 +29,10 @@ function Checkout() {
     async function formHandler(e) {
         e.preventDefault();
 
+        if(!(selectedChildTickets.value + selectedNormalTickets.value === seatsAmount)) {
+            alert("Please select all the tickets");
+            return;
+        }
         let childTickets = null;
         let normalTickets = null;
 
