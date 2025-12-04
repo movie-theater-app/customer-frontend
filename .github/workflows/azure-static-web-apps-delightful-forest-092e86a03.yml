@@ -20,13 +20,16 @@ jobs:
           submodules: true
           lfs: false
 
-      # Lisää Node 20.x asennus ennen buildia
+      - name: Inject environment variable for Vite build
+        run: echo "VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}" >> $GITHUB_ENV
+
+      # Add Node 20.x install before build
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: '20'
 
-      # Build ja deploy
+      # Build and deploy
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
@@ -35,10 +38,9 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           ###### Repository/Build Configurations ######
-          app_location: "/"       # Sovelluksen lähdekoodi
-          api_location: ""        # API-kansio (jos ei ole, jätä tyhjäksi)
-          output_location: "dist" # Viten build-kansio
-          ###### End of Repository/Build Configurations ######
+          app_location: "/"       # Source code
+          api_location: ""        # API-folder (not used currently)
+          output_location: "dist" # Vite build-folder
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'

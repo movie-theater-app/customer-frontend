@@ -12,6 +12,7 @@ export default function SelectSeatsPage() {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [heldSeats, setHeldSeats] = useState([]);
   const [holdExpiresAt, setHoldExpiresAt] = useState(null);
+  const [allSeats, setAllSeats] = useState([]); // stores all seat data. including seat_id
 
   /*useEffect(() => {
     // fetch schedule info from API
@@ -25,7 +26,8 @@ export default function SelectSeatsPage() {
   const fetchSeats = async () => {
     try {
       const data = await seatApi.getSeats(scheduleId); 
-      setMovieId(data.seats.length > 0 ? data.seats[0].movie_id : null);
+      setAllSeats(data.seats);
+      if (!movieId && data.seats.length > 0) setMovieId(data.seats[0].movie_id);
     } catch (err) {
       console.error("Error fetching seats:", err);
     }
@@ -103,6 +105,7 @@ export default function SelectSeatsPage() {
       {heldSeats.length > 0 && (
         <ReservationPanel 
           heldSeats={heldSeats}
+          allSeats={allSeats}
           scheduleId={scheduleId}
           movieId={movieId}
           expiresAt={holdExpiresAt}

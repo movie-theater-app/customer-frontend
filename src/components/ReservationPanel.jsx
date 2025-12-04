@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { bookingApi } from "../api/bookingApi";
 import { useNavigate } from "react-router-dom";
 
-export default function ReservationPanel({ heldSeats, scheduleId, movieId, expiresAt, onCancel }) {
+export default function ReservationPanel({ heldSeats, allSeats, scheduleId, movieId, expiresAt, onCancel }) {
   const [timeLeft, setTimeLeft] = useState(expiresAt - Date.now());
 
   useEffect(() => {
@@ -26,19 +26,18 @@ export default function ReservationPanel({ heldSeats, scheduleId, movieId, expir
   // proceed to checkout
   const proceedToCheckout = async () => {
     try {
-      const formattedSeats = heldSeats.map(id => ({
-        row: id[0],
-        number: parseInt(id.slice(1), 10)
-      }));
-
+      const formattedSeats = heldSeats.map(selected => {
+        const seat = allSeats.find(s => `${s.row}${s.number}` === selected);
+        if (!seat) throw new Error(`Seat ${selected} not found`);
+        return { seat_id: seat.seat_id };
+      });
       const result = await bookingApi.createBooking(scheduleId, movieId, formattedSeats);
 
       if (!result.bookingId) {
         alert("Error creating booking");
         return;
       }
-
-      navigate(`/payment/checkout/${result.bookingId}`);
+      navigate(`/checkout/${result.bookingId}`);
     } catch (err) {
       console.error(err);
       alert("Error when creating booking");
