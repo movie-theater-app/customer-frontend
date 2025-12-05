@@ -52,6 +52,18 @@ export const auditoriumApi = {
       throw error;
     }
   },
+
+    getAuditoriumByID: async (auditoriumId) => {
+        try {
+            const response = await fetch(`${VITE_API_BASE_URL}/auditoriums/get/${auditoriumId}`);
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            return await response.json();
+        } catch (error) {
+            console.error(`Error fetching auditoriums by ID: ${auditoriumId}:`, error);
+            throw error;
+        }
+    },
+
 };
 
 // Schedules
@@ -67,6 +79,19 @@ export const scheduleApi = {
       console.error('Error fetching schedules:', error);
       throw error;
     }
+  },
+
+  getScheduleById: async (id) => {
+      try {
+          const response = await fetch(`${VITE_API_BASE_URL}/schedules/get/${id}`);
+          if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return await response.json();
+      } catch (error) {
+          console.error(`Error fetching schedule with id: ${id}`, error);
+          throw error;
+      }
   },
 
   getSchedulesWithTheaterInformation: async () => {

@@ -2,6 +2,8 @@ import React, {useEffect} from 'react';
 import {useSearchParams} from "react-router-dom";
 import {paymentApi} from "../../api/paymentApi.jsx";
 import {bookingApi} from "../../api/bookingApi.jsx";
+import {auditoriumApi, movieApi, scheduleApi, theaterApi} from "../../api/Fetch.jsx";
+import {seatApi} from "../../api/seatApi.jsx";
 
 function SuccessPayment() {
 
@@ -24,7 +26,7 @@ function SuccessPayment() {
             const data = await paymentApi.getCheckout(session_id);
             console.log("data",data);
             if(data.session.status === "complete"){
-                await completePayment(data.session );
+                await completePayment(data.session, data.items.data);
             } else {
                 console.error('The session has not succeded')
             }
@@ -45,18 +47,89 @@ function SuccessPayment() {
         setLoading(false);
     }
 
-    async function completePayment(session){
+    async function getReceiptDetails(){
+        const booking = await bookingApi.getBookingByID(booking_id);
+        const movie = await movieApi.getById(booking.movie_id);
+        const schedule = await scheduleApi.getScheduleById(booking.schedule_id);
+        const seats = await seatApi.getSeatsByBooking(booking_id);
+        const auditorium = await auditoriumApi.getAuditoriumByID(schedule.auditorium_id);
+        const theater = await theaterApi.getTheaterById(schedule.theater_id);
+
+        return {
+            title: movie.title,
+            date: schedule.screening_date,
+            start_time: schedule.start_time,
+            end_time: schedule.end_time,
+            seats,
+            auditorium: auditorium.name,
+            theater: theater.name
+        }
+    }
+
+    async function completePayment(session, items){
         await bookingApi.confirmBooking(booking_id, session.amount_total, "paid");
         const tickets = await bookingApi.getTicketsFromBooking(booking_id);
 
+        const receiptDetails = await getReceiptDetails();
+
+        console.log("tickets length:", tickets.length);
+        console.log("seats length:", receiptDetails.seats.length);
+        console.log("seats:", receiptDetails.seats);
         let ticketsArray = [];
+        let ticketsReceipt = [];
         for (let i = 0; i < tickets.length; i++){
             const newTicket = {
                 id: tickets[i].id,
                 barcode_number: i
             }
             ticketsArray.push(newTicket);
+            // Each ticket receipt to send to the email
+            const newReceipt = {
+                barcode_number: i,
+                child_discount: tickets[i].child_discount,
+                price: tickets[i].price,
+                seat_type: receiptDetails.seats[i].seat_type,
+                seat_number: receiptDetails.seats[i].seat_number,
+                seat_row: receiptDetails.seats[i].seat_row,
+            }
+            ticketsReceipt.push(newReceipt);
         }
+
+        // All the data that will need to be sent to the email
+        let childTickets = 0;
+        let normalTickets = 0;
+        let childPrice = 0;
+        let normalPrice = 0;
+
+        ticketsReceipt.forEach((ticket) => {
+            if(ticket.child_discount === true){
+                childTickets++;
+                if (childprice === 0) childPrice = ticket.price;
+            } else {
+                normalTickets++;
+                if (normalPrice === 0) normalPrice = ticket.price;
+            }
+        })
+
+        const receiptData = {
+            tickets: ticketsReceipt,
+            title: receiptDetails.title,
+            date: receiptDetails.date,
+            start_time: receiptDetails.start_time.slice(0,5),
+            end_time: receiptDetails.end_time.slice(0,5),
+            theater: receiptDetails.theater,
+            auditorium: receiptDetails.auditorium,
+            totalPrice: session.amount_total,
+            childTickets,
+            normalTickets,
+            childPrice,
+            normalPrice,
+        }
+
+
+
+        const responseEmail = await paymentApi.sendEmail(session.customer_email, receiptData);
+        console.log("responseEmail", responseEmail);
 
        const ticketsUpdated =  await paymentApi.updateTickets(ticketsArray, true);
         await paymentApi.createPayment(booking_id, session_id, session.created, session.amount_total);

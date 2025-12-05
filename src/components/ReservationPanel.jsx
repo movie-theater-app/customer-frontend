@@ -37,7 +37,7 @@ export default function ReservationPanel({ heldSeats, allSeats, scheduleId, movi
         alert("Error creating booking");
         return;
       }
-      navigate(`/checkout/${result.bookingId}`);
+      navigate(`/payment/checkout/${result.bookingId}`);
     } catch (err) {
       console.error(err);
       alert("Error when creating booking");

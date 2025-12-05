@@ -22,6 +22,22 @@ export const bookingApi = {
     }
   },
 
+    getBookingByID: async (booking_id) => {
+        try {
+            const response = await fetch(`${VITE_API_BASE_URL}/bookings/get/${booking_id}`);
+
+            if (!response.ok) {
+                const err = await response.json().catch(() => ({}));
+                throw new Error(err.error || "Failed to get booking");
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error(`Error getting booking with id ${booking_id}`, error);
+            throw error;
+        }
+    },
+
 
 // Method to confirm the booking
   confirmBooking: async (booking_id, total_amount, payment_status) => {
@@ -64,7 +80,7 @@ export const bookingApi = {
 // Method to get all the seats from the booking
   getBookingSeats: async (bookingId) => {
       try {
-          const response = await fetch(`${VITE_API_BASE_URL}/seats/${bookingId}`);
+          const response = await fetch(`${VITE_API_BASE_URL}/bookings/seats/${bookingId}`);
 
           if (!response.ok) {
               const err = await response.json().catch(() => ({}));

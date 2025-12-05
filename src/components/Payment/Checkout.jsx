@@ -2,6 +2,7 @@ import React, {useEffect, useMemo, useState} from 'react';
 import { paymentApi } from "../../api/paymentApi.jsx";
 import {useNavigate, useParams} from "react-router-dom";
 import Select from "react-select";
+import {bookingApi} from "../../api/bookingApi.jsx";
 
 
 
@@ -12,7 +13,7 @@ function Checkout() {
 
     const { booking_id } = useParams();
 
-    const [seatsAmount, setSeatsAmount] = useState(10);
+    const [seatsAmount, setSeatsAmount] = useState(0);
 
 
     const [normalTicketPrice, setNormalTicketPrice] = useState(15);
@@ -26,11 +27,18 @@ function Checkout() {
     const [selectedTotalPrice, setSelectedTotalPrice] = useState(0);
     const [email, setEmail] = useState("");
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
     async function formHandler(e) {
         e.preventDefault();
 
         if(!(selectedChildTickets.value + selectedNormalTickets.value === seatsAmount)) {
             alert("Please select all the tickets");
+            return;
+        }
+
+        if(!emailRegex.test(email.trim())) {
+            alert("Please enter a valid email");
             return;
         }
         let childTickets = null;
@@ -77,7 +85,6 @@ function Checkout() {
 
         }
     }
-
     async function createTicket (price, child_discount) {
         try {
             const ticket = await paymentApi.createTicket(booking_id, price, child_discount);
@@ -88,9 +95,11 @@ function Checkout() {
         }
     }
 
-    function getOptions() {
-        const normalTicketsAmount= seatsAmount - (selectedChildTickets?.value ?? 0) ;
-        const childTicketsAmount = seatsAmount - (selectedNormalTickets?.value ?? 0);
+    function getOptions(seats) {
+
+        const seatQuantity = seats || seatsAmount;
+        const normalTicketsAmount= seatQuantity - (selectedChildTickets?.value ?? 0) ;
+        const childTicketsAmount = seatQuantity - (selectedNormalTickets?.value ?? 0);
 
         let childOptions = [];
         let normalOptions = [];
@@ -127,8 +136,24 @@ function Checkout() {
     }, [selectedNormalTickets, selectedChildTickets]);
 
     useEffect(() => {
-        getOptions();
+        getSeats();
     }, [])
+
+    async function getSeats () {
+        try {
+            const seats = await bookingApi.getBookingSeats(booking_id);
+
+            console.log("seats", seats);
+
+            if(!seats.length > 0){
+                throw new Error ("No seats found for this booking")
+            }
+            getOptions(seats.length);
+            setSeatsAmount(seats.length);
+        } catch (e) {
+            console.error('Error getting seats for booking');
+        }
+    }
     return (
         <form onSubmit={formHandler}
         style={{ width: "100%",

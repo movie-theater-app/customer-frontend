@@ -78,5 +78,21 @@ export const paymentApi = {
             console.error('Error creating payment', error);
             throw error;
         }
+    },
+
+    sendEmail: async (email, receipt) => {
+        try {
+            const response = await fetch(`${BASE_URL}/payment/email/send`, {
+                method: "POST",
+                headers: {"Content-Type": "application/json" },
+                body: JSON.stringify({email, receipt}),
+            });
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+            return await response.json();
+        } catch (error) {
+            console.error('Error sending email', error);
+            throw error;
+        }
     }
 };

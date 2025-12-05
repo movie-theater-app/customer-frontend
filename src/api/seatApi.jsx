@@ -80,5 +80,20 @@ export const seatApi = {
         console.error('Error releasing seats:', error);
         throw error;
       }
+    },
+
+    getSeatsByBooking: async (bookingId) => {
+      try{
+        const response = await fetch(`${VITE_API_BASE_URL}/seats/get/booking/${bookingId}`);
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.error || 'Failed to get seats by booking');
+        }
+
+        return await response.json();
+        } catch (error) {
+            console.error('Error getting seats by booking:', error);
+            throw error;
+        }
     }
 };
