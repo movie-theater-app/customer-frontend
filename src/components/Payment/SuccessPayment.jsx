@@ -104,7 +104,7 @@ function SuccessPayment() {
         ticketsReceipt.forEach((ticket) => {
             if(ticket.child_discount === true){
                 childTickets++;
-                if (childprice === 0) childPrice = ticket.price;
+                if (childPrice === 0) childPrice = ticket.price;
             } else {
                 normalTickets++;
                 if (normalPrice === 0) normalPrice = ticket.price;
