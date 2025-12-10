@@ -4,6 +4,7 @@ import {paymentApi} from "../../api/paymentApi.jsx";
 import {bookingApi} from "../../api/bookingApi.jsx";
 import {auditoriumApi, movieApi, scheduleApi, theaterApi} from "../../api/Fetch.jsx";
 import {seatApi} from "../../api/seatApi.jsx";
+import "../../CSS/Payment.css";
 
 function SuccessPayment() {
 
@@ -166,20 +167,13 @@ function SuccessPayment() {
 
 
     return (
-        <div style={{ padding: '20px', textAlign: 'center' }}>
+        <div className="payment-success">
             <h1>Payment Successful!</h1>
-            <p style={{color: 'white'}}>Thank you for your purchase!</p>
-            <h3 style={{color: 'white'}}>Order Summary:</h3>
+            <p style={{fontStyle: 'italic', margin: '20px'}}>Thank you for your purchase!</p>
+            <h3>Order Summary:</h3>
             {items.map((item) => (
-                <div
+                <div className='info-box'
                     key={item.id || item.description}
-                    style={{
-                        marginTop: '20px',
-                        padding: '15px',
-                        backgroundColor: '#f0f8ff',
-                        color: 'black',
-                        borderRadius: '8px'
-                    }}
                 >
                     <h3>{item.description}</h3>
                     <p><strong>Price For Each:</strong> {(item.price.unit_amount / 100).toFixed(2)} {session.currency?.toUpperCase()}</p>
@@ -187,20 +181,13 @@ function SuccessPayment() {
                     <p><strong>Price:</strong> {(item.amount_total / 100).toFixed(2)} {session.currency?.toUpperCase()}</p>
                 </div>
             ))}
-            <div
-                style={{
-                    marginTop: '20px',
-                    padding: '15px',
-                    backgroundColor: '#f0f8ff',
-                    color: 'black',
-                    borderRadius: '8px'
-                }}
+            <div className='info-box'
             >
                 <h3>Total</h3>
                 <p><strong>Quantity:</strong> {totalQuantity}</p>
                 <p><strong>Price:</strong> {(totalPrice / 100).toFixed(2)} {session.currency?.toUpperCase()}</p>
             </div>
-            <p style={{color: 'white'}}>The tickets have been sent to your email</p>
+            <p style={{fontStyle: 'italic', marginTop: '20px'}}>The tickets have been sent to your email</p>
 
         </div>
     );

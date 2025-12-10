@@ -3,6 +3,7 @@ import { paymentApi } from "../../api/paymentApi.jsx";
 import {useNavigate, useParams} from "react-router-dom";
 import Select from "react-select";
 import {bookingApi} from "../../api/bookingApi.jsx";
+import "../../CSS/Payment.css";
 
 
 
@@ -156,13 +157,9 @@ function Checkout() {
     }
     return (
         <form onSubmit={formHandler}
-        style={{ width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",}}>
+        className='checkout-form'>
             <div className="form-field">
-                <label htmlFor="normal-tickets-input" style={{color:"white"}}>Normal Tickets</label>
+                <label htmlFor="normal-tickets-input">Normal Tickets</label>
                 <Select
                     className="normal-tickets-input"
                     value={selectedNormalTickets}
@@ -172,10 +169,10 @@ function Checkout() {
                     hideSelectedOptions={false}
                     required
                 />
-                <p style={{color:"white"}}>{selectedNormalTicketPrice}€</p>
+                <p>{selectedNormalTicketPrice}€</p>
             </div>
             <div className="form-field">
-                <label htmlFor="child-tickets-input" style={{color:"white"}}>Child Tickets</label>
+                <label htmlFor="child-tickets-input">Child Tickets</label>
                 <Select
                     className="child-tickets-input"
                     value={selectedChildTickets}
@@ -185,15 +182,15 @@ function Checkout() {
                     hideSelectedOptions={false}
                     required
                 />
-                <p style={{color:"white"}}>{selectedChildTicketPrice}€</p>
+                <p>{selectedChildTicketPrice}€</p>
             </div>
-            <p style={{color:"white"}}>{selectedTotalPrice}€</p>
 
             <div className="form-field">
-                <label htmlFor="email-input" style={{color:"white"}}>Email</label>
-                <input className="email-input" type="email" placeholder="Enter email" required value={email} onChange={(e) => setEmail(e.target.value)} />
+                <label htmlFor="email-input">Email</label>
+                <input className="email-input" type="email" placeholder="Enter email..." required value={email} onChange={(e) => setEmail(e.target.value)} />
             </div>
-            <button type="submit" >Submit</button>
+            <p className="total-price">Total: {selectedTotalPrice}€</p>
+            <button type="submit" >Proceed</button>
         </form>
     );
 }

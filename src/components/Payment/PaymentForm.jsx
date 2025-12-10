@@ -1,5 +1,6 @@
 import React from 'react';
 import {PaymentElement, useCheckout} from "@stripe/react-stripe-js/checkout";
+import "../../CSS/Payment.css";
 
 function PaymentForm() {
 
@@ -32,10 +33,12 @@ function PaymentForm() {
         }
     };
     return (
-        <div>
+        <div className="payment-form">
             <form onSubmit={handleSubmit}>
-                <PaymentElement />
-                <button>Submit</button>
+                <div className="stripe-container">
+                    <PaymentElement />
+                </div>
+                <button className='payment-submision'>Submit</button>
             </form>
         </div>
     );
