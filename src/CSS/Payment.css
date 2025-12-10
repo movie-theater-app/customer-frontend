@@ -78,3 +78,15 @@ button {
     cursor: pointer;
     padding: 12px 32px;
 }
+
+.stripe-container {
+    width: 90vw;
+    max-width: 500px;
+}
+
+.payment-submision {
+    margin-top: 14px;
+    display: flex;
+    margin-left: auto;
+    margin-right: 0;
+}
