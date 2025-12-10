@@ -90,3 +90,43 @@ button {
     margin-left: auto;
     margin-right: 0;
 }
+
+.payment-success {
+    padding: 20px;
+    text-align: center;
+    margin-top: 20vh;
+}
+
+.payment-success h1 {
+    color: #caf9ff;
+    font-size: 36px;
+    margin: 0 auto 20px auto;
+    border-bottom: 2px solid #caf9ff;
+    max-width: 420px;
+}
+
+.payment-success p, .payment-success h3 {
+    color: white;
+}
+
+.info-box {
+    margin: 20px auto;
+    padding: 15px;
+    background-color: #f0f8ff;
+    border-radius: 8px;
+    border: 1px solid rgba(83,152,173,.74);
+    box-shadow: inset 2px 3px 10px 4px #2f87913d;
+    background-color: #feffff17;
+    max-width: 400px;
+}
+
+.info-box p {
+    color: white;
+    font-size: 18px;
+}
+
+.info-box h3 {
+    color: white;
+    font-size: 22px;
+    margin-bottom: 10px;
+}
