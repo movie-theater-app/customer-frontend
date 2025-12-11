@@ -30,6 +30,14 @@ function Checkout() {
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+    // Hasty fix to correct select option colors
+    const customSelectStyles = {
+        option: (provided) => ({
+            ...provided,
+            color: 'black'
+        })
+    };
+
     async function formHandler(e) {
         e.preventDefault();
 
@@ -167,6 +175,7 @@ function Checkout() {
                     options={normalTicketOptions}
                     closeMenuOnSelect={false}
                     hideSelectedOptions={false}
+                    styles={customSelectStyles}
                     required
                 />
                 <p>{selectedNormalTicketPrice}€</p>
@@ -179,6 +188,7 @@ function Checkout() {
                     onChange={setSelectedChildTickets}
                     options={childTicketOptions}
                     closeMenuOnSelect={false}
+                    styles={customSelectStyles}
                     hideSelectedOptions={false}
                     required
                 />

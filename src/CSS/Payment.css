@@ -69,8 +69,8 @@ input:-webkit-autofill:active {
 
 button {
     margin-top: 8px;
-    background-color: #caf9ff;
-    color: #121212;
+    background: linear-gradient(#3cbfc4, #135c66);
+    color: white;
     font-weight: 600;
     border: none;
     border-radius: 8px;
@@ -129,4 +129,11 @@ button {
     color: white;
     font-size: 22px;
     margin-bottom: 10px;
+}
+
+.payment-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
 }
