@@ -1,7 +1,12 @@
+import Navbar from '../components/Navbar';
+
 export default function Checkout() {
   return (
-    <div>
-      <h1>Checkout page</h1>
-    </div>
+    <>
+    <Navbar/>
+      <div>
+        <h1>Checkout page</h1>
+      </div>
+    </>
   );
 }
