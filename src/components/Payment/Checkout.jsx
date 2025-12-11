@@ -167,7 +167,7 @@ function Checkout() {
         <form onSubmit={formHandler}
         className='checkout-form'>
             <div className="form-field">
-                <label htmlFor="normal-tickets-input">Normal Tickets</label>
+                <label htmlFor="normal-tickets-input">Normal Tickets (15 €)</label>
                 <Select
                     className="normal-tickets-input"
                     value={selectedNormalTickets}
@@ -181,7 +181,7 @@ function Checkout() {
                 <p>{selectedNormalTicketPrice}€</p>
             </div>
             <div className="form-field">
-                <label htmlFor="child-tickets-input">Child Tickets</label>
+                <label htmlFor="child-tickets-input">Child Tickets (10 €)</label>
                 <Select
                     className="child-tickets-input"
                     value={selectedChildTickets}
