@@ -73,7 +73,6 @@ export default function Movie() {
               <TheaterDropdown 
                 onSelectionChange={setSelectedTheaters}
                 initialSelection={selectedTheaters}
-                availableTheaterIds={availableTheaterIds}
               />
               <SchedulePicker 
                 onDateChange={setSelectedDate}

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { theaterApi } from '../api/Fetch'
 
-export default function TheaterDropdown({ onSelectionChange, initialSelection = [], availableTheaterIds = null }) {
+export default function TheaterDropdown({ onSelectionChange, initialSelection = [] }) {
   const [isOpen, setIsOpen] = useState(false);
   const [theaters, setTheaters] = useState([]);
   const [selectedTheaters, setSelectedTheaters] = useState({});
@@ -10,12 +10,7 @@ export default function TheaterDropdown({ onSelectionChange, initialSelection = 
   useEffect(() => {
     const loadTheaters = async () => {
       try {
-        const allData = await theaterApi.getAllTheaters();
-        
-        // Filter theaters if availableTheaterIds is provided
-        const data = availableTheaterIds 
-          ? allData.filter(t => availableTheaterIds.includes(t.id))
-          : allData;
+        const data = await theaterApi.getAllTheaters();
         
         setTheaters(data);
         
@@ -47,7 +42,7 @@ export default function TheaterDropdown({ onSelectionChange, initialSelection = 
     };
 
     loadTheaters();
-  }, [availableTheaterIds ? availableTheaterIds.join(',') : 'all']);
+  }, []);
 
   const toggleDropdown = () => {
     setIsOpen(prev => !prev);
