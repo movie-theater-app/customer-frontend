@@ -21,7 +21,9 @@ jobs:
           lfs: false
 
       - name: Inject environment variable for Vite build
-        run: echo "VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}" >> $GITHUB_ENV
+        run: |
+          echo "VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}" >> $GITHUB_ENV
+          echo "VITE_STRIPE_PUBLIC_KEY=${{ secrets.VITE_STRIPE_PUBLIC_KEY }}" >> $GITHUB_ENV
 
       # Add Node 20.x install before build
       - name: Setup Node
