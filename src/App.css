@@ -44,6 +44,10 @@ h2 {
   margin: 10px 0;
 }
 
+h3 {
+  color: white;
+}
+
 .selection {
   position: relative;
   width: 300px;
@@ -342,6 +346,14 @@ h2 {
   margin: 20px;
 }
 
+@media (min-width: 600px) {
+  .movie-showtimes {
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content;
+  }
+}
+
 .showtime-theater-info {
   display: flex;
   flex-direction: row;
@@ -379,6 +391,10 @@ h2 {
   margin-left: -12px;
 }
 
+.showtime-auditorium, .showtime-start-time {
+  color: white;
+}
+
 .auditorium-arrow {
   pointer-events: none;
   color: var(--highlights);
@@ -409,6 +425,12 @@ h2 {
 }
 
 .info-value {
+  color: white;
+  font-size: 18px;
+}
+
+.no-showtimes {
+  font-style: italic;
   color: white;
   font-size: 18px;
 }
