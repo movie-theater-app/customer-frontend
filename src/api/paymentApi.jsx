@@ -56,7 +56,7 @@ export const paymentApi = {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ tickets, is_paid}),
             });
-            if (!response) throw new Error(`Error: ${response.status}`);
+            if (!response.ok) throw new Error(`Error: ${response.status}`);
             return await response.json();
         } catch (error) {
             console.error('Error creating ticket', error);
@@ -67,7 +67,7 @@ export const paymentApi = {
     generateUniqueBarcode: async () => {
         try {
             const response = await fetch(`${BASE_URL}/payment/barcode`);
-            if (!response) throw new Error(`Error: ${response.status}`);
+            if (!response.ok) throw new Error(`Error: ${response.status}`);
             return await response.json();
         } catch (error) {
             console.error('Error generating barcode', error);
