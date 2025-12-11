@@ -14,14 +14,6 @@ export default function SelectSeatsPage() {
   const [holdExpiresAt, setHoldExpiresAt] = useState(null);
   const [allSeats, setAllSeats] = useState([]); // stores all seat data. including seat_id
 
-  /*useEffect(() => {
-    // fetch schedule info from API
-    const fetchSchedule = async () => {
-      const data = await scheduleApi.getSchedule(scheduleId);
-    };
-    fetchSchedule();
-    }, [scheduleId]); */
-
    // Fetch seats and movie info from seatApi
   const fetchSeats = async () => {
     try {

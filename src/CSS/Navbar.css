@@ -1,10 +1,10 @@
 .header {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   position: relative;
   color: white;
-  padding-top: 2.5rem;
+  padding-top: 1rem;
   background: linear-gradient(to bottom, #08112E 30%, #0A2C48 55%, #16566F 75%, #58a4a9ff 100%);
 }
 
@@ -12,16 +12,23 @@
   display: block;
   max-width: 70px;
   height: auto;
-  margin: 0;
   padding: 0;
 /* left and right fade */
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 30%, black 70%, transparent 100%);
-  mask-image: linear-gradient(to right, transparent 0%, black 30%, black 70%, transparent 100%);
+
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 40%, black 60%, transparent 90%);
+  mask-image: linear-gradient(to right, transparent 0%, black 40%, black 60%, transparent 90%);
 
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
-  margin: 0;
+  margin-left: 3rem;
   padding: 0;
+}
+
+.back-btn {
+  max-height: 30px !important;
+  max-width: 30px !important;
+  margin-right: 3.5rem;
+  cursor: pointer;
 }
 
 .logo-fade {
@@ -37,12 +44,20 @@
 @media (min-width: 600px) {
   .navbar-logo {
     max-width: 90px;
+    margin-left: 3.5rem;
   }
+  .back-btn {
+  min-height: 40px;
+  min-width: 40px;
+  margin-right: 6rem;
+}
+
 }
 @media (min-width: 900px) {
   .navbar-logo {
     max-width: 110px;
   }
+
 }
 @media (min-width: 1200px) {
   .navbar-logo {

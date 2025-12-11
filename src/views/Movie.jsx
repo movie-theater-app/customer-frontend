@@ -2,13 +2,14 @@ import { useState, useEffect } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
 import '../App.css'
 import { movieApi } from '../api/Fetch'
-import MovieHeader from '../components/MovieHeader'
+// import MovieHeader from '../components/MovieHeader'
 import MovieTrailer from '../components/MovieTrailer'
 import MovieDetails from '../components/MovieDetails'
 import TheaterDropdown from '../components/TheaterDropdown'
 import SchedulePicker from '../components/SchedulePicker'
 import MovieShowtimes from '../components/MovieShowtimes'
 import { useMovieSchedules } from '../components/MovieSchedules'
+import Navbar from '../components/Navbar';
 
 export default function Movie() {
   const { movieId } = useParams();
@@ -60,7 +61,8 @@ export default function Movie() {
 
   return (
     <>
-      <MovieHeader />
+      <Navbar/>
+
       {!movie ? (
         console.log('Waiting for movie data')
       ) : (
