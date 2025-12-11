@@ -383,3 +383,32 @@ h2 {
   pointer-events: none;
   color: var(--highlights);
 }
+
+.movie-info {
+  display: flex;
+  gap: 12px;
+  text-align: center;
+  margin: 0 auto;
+  grid-column: 1 / 3;
+  justify-content: center;
+}
+
+.movie-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background-color: var(--bg-darker);
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+.info-header {
+  color: var(--highlights);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.info-value {
+  color: white;
+  font-size: 18px;
+}
