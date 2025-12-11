@@ -67,6 +67,8 @@ function SuccessPayment() {
         }
     }
 
+
+
     async function completePayment(session, items){
         await bookingApi.confirmBooking(booking_id, session.amount_total, "paid");
         const tickets = await bookingApi.getTicketsFromBooking(booking_id);
@@ -79,14 +81,15 @@ function SuccessPayment() {
         let ticketsArray = [];
         let ticketsReceipt = [];
         for (let i = 0; i < tickets.length; i++){
+            const newBarcode = await paymentApi.generateUniqueBarcode();
             const newTicket = {
                 id: tickets[i].id,
-                barcode_number: i
+                barcode_number: newBarcode,
             }
             ticketsArray.push(newTicket);
             // Each ticket receipt to send to the email
             const newReceipt = {
-                barcode_number: i,
+                barcode_number: newBarcode,
                 child_discount: tickets[i].child_discount,
                 price: tickets[i].price,
                 seat_type: receiptDetails.seats[i].seat_type,

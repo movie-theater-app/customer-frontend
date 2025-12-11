@@ -64,6 +64,16 @@ export const paymentApi = {
         }
     },
 
+    generateUniqueBarcode: async () => {
+        try {
+            const response = await fetch(`${BASE_URL}/payment/barcode`);
+            if (!response) throw new Error(`Error: ${response.status}`);
+            return await response.json();
+        } catch (error) {
+            console.error('Error generating barcode', error);
+        }
+    },
+
     createPayment: async (booking_id, session_id, paid_at, amount) => {
         try {
             const response = await fetch(`${BASE_URL}/payment/create`, {
